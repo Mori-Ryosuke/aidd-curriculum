@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIDD 要件定義カリキュラム レビュー資料</title>
+<style>
+  :root {
+    --color-bg: #ffffff;
+    --color-fg: #1a1a1a;
+    --color-muted: #6b7280;
+    --color-accent: #3b5bdb;
+    --color-accent-light: #eaf0ff;
+    --color-border: #e5e7eb;
+    --color-card: #f9fafb;
+    --color-code-bg: #f3f4f6;
+    --color-warn-bg: #fef3c7;
+    --color-warn-border: #f59e0b;
+    --color-good-bg: #d1fae5;
+    --color-good-border: #10b981;
+    --color-note-bg: #dbeafe;
+    --color-note-border: #3b82f6;
+    --color-danger-bg: #fee2e2;
+    --color-danger-border: #ef4444;
+    --font-jp: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    --font-mono: "SF Mono", Monaco, Consolas, "Courier New", monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-jp);
+    color: var(--color-fg);
+    background: var(--color-bg);
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  /* Sidebar */
+  nav.toc {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 32px 20px;
+    background: var(--color-card);
+    border-right: 1px solid var(--color-border);
+    font-size: 13px;
+  }
+
+  nav.toc .toc-title {
+    font-size: 11px;
+    color: var(--color-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  nav.toc ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: item;
+  }
+
+  nav.toc > ol > li {
+    counter-increment: item;
+    margin-bottom: 8px;
+  }
+
+  nav.toc a {
+    color: var(--color-fg);
+    text-decoration: none;
+    display: block;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+
+  nav.toc a:hover {
+    background: var(--color-accent-light);
+    color: var(--color-accent);
+  }
+
+  nav.toc ol ol {
+    padding-left: 14px;
+    margin-top: 4px;
+    font-size: 12px;
+    color: var(--color-muted);
+  }
+
+  nav.toc ol ol a {
+    padding: 2px 6px;
+    color: var(--color-muted);
+  }
+
+  /* Main content */
+  main {
+    padding: 60px 60px 120px 60px;
+    max-width: 900px;
+  }
+
+  /* Cover */
+  .cover {
+    padding: 80px 0 60px;
+    border-bottom: 3px solid var(--color-accent);
+    margin-bottom: 60px;
+  }
+
+  .cover .eyebrow {
+    color: var(--color-accent);
+    font-size: 14px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .cover h1 {
+    font-size: 40px;
+    line-height: 1.3;
+    margin: 0 0 16px 0;
+    font-weight: 700;
+  }
+
+  .cover .subtitle {
+    color: var(--color-muted);
+    font-size: 18px;
+    margin-bottom: 40px;
+  }
+
+  .cover .meta {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 32px;
+    font-size: 14px;
+  }
+
+  .cover .meta dt {
+    color: var(--color-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .cover .meta dd {
+    margin: 0 0 8px 0;
+    font-weight: 500;
+  }
+
+  /* Headings */
+  h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 80px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--color-border);
+    scroll-margin-top: 20px;
+  }
+
+  h2 .section-num {
+    color: var(--color-accent);
+    margin-right: 12px;
+    font-weight: 800;
+  }
+
+  h3 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 40px 0 16px;
+    scroll-margin-top: 20px;
+  }
+
+  h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 24px 0 12px;
+    color: var(--color-fg);
+  }
+
+  p { margin: 0 0 14px 0; }
+
+  /* Lists */
+  ul, ol { margin: 0 0 18px 0; padding-left: 24px; }
+  li { margin-bottom: 6px; }
+
+  /* Code */
+  code {
+    font-family: var(--font-mono);
+    background: var(--color-code-bg);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 13px;
+    color: #d63384;
+  }
+
+  pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 20px 24px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    margin: 16px 0 24px;
+  }
+
+  pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    font-size: inherit;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0 24px;
+    font-size: 14px;
+    background: white;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+
+  th {
+    background: var(--color-card);
+    font-weight: 600;
+    color: var(--color-fg);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+
+  tr:hover td { background: #fafbfc; }
+
+  /* Callouts */
+  .callout {
+    padding: 16px 20px;
+    border-radius: 6px;
+    border-left: 4px solid;
+    margin: 16px 0 24px;
+    font-size: 14px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout.note { background: var(--color-note-bg); border-color: var(--color-note-border); }
+  .callout.warn { background: var(--color-warn-bg); border-color: var(--color-warn-border); }
+  .callout.good { background: var(--color-good-bg); border-color: var(--color-good-border); }
+  .callout.danger { background: var(--color-danger-bg); border-color: var(--color-danger-border); }
+
+  .callout .callout-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 16px 0 24px;
+  }
+
+  .card {
+    padding: 20px;
+    background: var(--color-card);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
+  }
+
+  .card h4 {
+    margin: 0 0 8px 0;
+    color: var(--color-accent);
+    font-size: 15px;
+  }
+
+  .card p { font-size: 14px; margin-bottom: 0; }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+    margin: 24px 0;
+  }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: var(--color-border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 24px;
+  }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -30px;
+    top: 6px;
+    width: 12px;
+    height: 12px;
+    background: var(--color-accent);
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 1px var(--color-border);
+  }
+  .timeline-item h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+  }
+  .timeline-item .timeline-meta {
+    color: var(--color-muted);
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .timeline-item p { font-size: 14px; margin: 0; }
+
+  /* Chat quote */
+  .quote {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 18px 22px;
+    margin: 12px 0;
+    font-size: 14px;
+    line-height: 1.7;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+  }
+  .quote.tanaka { border-left: 4px solid #f59e0b; }
+  .quote.user { border-left: 4px solid #3b82f6; }
+  .quote-header {
+    font-size: 12px;
+    color: var(--color-muted);
+    margin-bottom: 6px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Priority tags */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  .tag.critical { background: #fecaca; color: #991b1b; }
+  .tag.high { background: #fed7aa; color: #9a3412; }
+  .tag.mid { background: #fef08a; color: #854d0e; }
+  .tag.low { background: #d1fae5; color: #065f46; }
+  .tag.decided { background: #dbeafe; color: #1e40af; }
+  .tag.reject { background: #e5e7eb; color: #4b5563; }
+
+  /* Two-column */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 16px 0 24px;
+  }
+
+  /* Score display */
+  .score-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 32px;
+    background: linear-gradient(135deg, #3b5bdb 0%, #7048e8 100%);
+    color: white;
+    border-radius: 12px;
+    margin: 16px 0 24px;
+  }
+  .score-box .score-label { font-size: 14px; opacity: 0.9; margin-bottom: 4px; }
+  .score-box .score-value { font-size: 36px; font-weight: 800; line-height: 1; }
+  .score-box .score-rank { font-size: 14px; opacity: 0.9; }
+
+  /* Checkbox list */
+  .checklist {
+    list-style: none;
+    padding: 0;
+  }
+  .checklist li {
+    padding: 8px 12px 8px 32px;
+    position: relative;
+    background: var(--color-card);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .checklist li::before {
+    content: "☐";
+    position: absolute;
+    left: 10px;
+    top: 8px;
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  /* Print */
+  @media print {
+    nav.toc { display: none; }
+    .layout { grid-template-columns: 1fr; }
+    main { padding: 20px; max-width: 100%; }
+    h2 { page-break-before: always; }
+    .cover { page-break-after: always; }
+    pre { font-size: 11px; }
+    body { font-size: 12px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    nav.toc { position: static; height: auto; }
+    main { padding: 24px; }
+    .two-col { grid-template-columns: 1fr; }
+    .cover h1 { font-size: 28px; }
+  }
+
+  /* Details / summary */
+  details {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 12px 0;
+  }
+  details[open] summary { margin-bottom: 12px; }
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-accent);
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+
+<nav class="toc">
+  <div class="toc-title">目次</div>
+  <ol>
+    <li><a href="#s1">カリキュラムの全体像</a>
+      <ol>
+        <li><a href="#s1-1">AIDD内での位置づけ</a></li>
+        <li><a href="#s1-2">対象受講者と到達目標</a></li>
+        <li><a href="#s1-3">なぜAIで学ぶのか</a></li>
+      </ol>
+    </li>
+    <li><a href="#s2">Ch.1 演習の設計</a>
+      <ol>
+        <li><a href="#s2-1">学べること</a></li>
+        <li><a href="#s2-2">演習の流れ</a></li>
+        <li><a href="#s2-3">エージェントの役割</a></li>
+        <li><a href="#s2-4">関連文書マップ</a></li>
+      </ol>
+    </li>
+    <li><a href="#s3">エージェント内部設計</a>
+      <ol>
+        <li><a href="#s3-1">3モード</a></li>
+        <li><a href="#s3-2">難易度別ヒント</a></li>
+        <li><a href="#s3-3">隠し仕様</a></li>
+        <li><a href="#s3-4">評価ルーブリック</a></li>
+      </ol>
+    </li>
+    <li><a href="#s4">実演結果</a>
+      <ol>
+        <li><a href="#s4-1">実施サマリ</a></li>
+        <li><a href="#s4-2">主要ハイライト</a></li>
+        <li><a href="#s4-3">最終成果物</a></li>
+        <li><a href="#s4-4">採点結果</a></li>
+      </ol>
+    </li>
+    <li><a href="#s5">AI側の自己観察</a></li>
+    <li><a href="#s6">改善候補と作成者方針</a></li>
+    <li><a href="#s7">議論したい論点</a></li>
+    <li><a href="#s8">今後のロードマップ</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<!-- Cover -->
+<section class="cover">
+  <div class="eyebrow">Curriculum Review</div>
+  <h1>AIDD 要件定義カリキュラム<br>レビュー資料</h1>
+  <div class="subtitle">Ch.1「曖昧な要望を仕様に落とす」演習キットの設計レビュー</div>
+  <dl class="meta">
+    <div>
+      <dt>作成日</dt>
+      <dd>2026-07-22</dd>
+    </div>
+    <div>
+      <dt>作成者</dt>
+      <dd>森</dd>
+    </div>
+    <div>
+      <dt>レビュー対象</dt>
+      <dd>spec-sparring-client エージェント／演習フロー</dd>
+    </div>
+    <div>
+      <dt>実演題材</dt>
+      <dd>review-feature（難易度：標準）</dd>
+    </div>
+  </dl>
+</section>
+
+<!-- Section 1 -->
+<h2 id="s1"><span class="section-num">1</span>カリキュラムの全体像</h2>
+
+<h3 id="s1-1">1-1. AIDDカリキュラム内での位置づけ</h3>
+
+<p>本キットは <strong>AIDD（AI駆動開発）カリキュラム</strong> の <strong>Ch.1「要件定義」</strong> 章に位置する演習キットです。曖昧な要望を、AIを道具として使いこなしながら実装可能な仕様（AC付きユーザーストーリー）まで詰める練習を提供します。</p>
+
+<div class="callout note">
+  <div class="callout-title">Note</div>
+  <p>AIDDカリキュラム全体（Ch.1以外の章立て）の位置関係は、レビュー会でメンバーに補足をお願いします。本資料は Ch.1 単体の内容にフォーカスしています。</p>
+</div>
+
+<h3 id="s1-2">1-2. 対象受講者と到達目標</h3>
+
+<div class="card-grid">
+  <div class="card">
+    <h4>対象受講者</h4>
+    <p>要件定義に触れる開発者・PdM等。手法（INVEST／MoSCoW／AC）を暗記していなくても取り組める設計。</p>
+  </div>
+  <div class="card">
+    <h4>前提知識</h4>
+    <p>Claude Code の基本操作。要件定義用語の詳細解説は本編（講義）が担当。</p>
+  </div>
+  <div class="card">
+    <h4>到達目標</h4>
+    <p>曖昧要望からAIを使って仕様に落とし、隠れた論点を掘り当てられる状態。</p>
+  </div>
+</div>
+
+<div class="callout warn">
+  <div class="callout-title">要レビュアー確認</div>
+  <p>対象受講者の想定レベル（初学者／実務経験者／熟練者）と、Ch.1完了時の到達目標の粒度は、レビュー会で明確化したい論点です。</p>
+</div>
+
+<h3 id="s1-3">1-3. なぜ「要件定義」をAIで学ぶのか</h3>
+
+<p>本キットの中核思想は、以下の一文に集約されます：</p>
+
+<div class="callout good">
+  <div class="callout-title">Core Concept</div>
+  <p><strong>AIに手法を実行させ、その出力を受講者が判断・修正する</strong> ——これがAI駆動開発（AIDD）での要件定義の進め方であり、この演習で身につける力。</p>
+</div>
+
+<p>手法の専門家になる必要はなく、AIを道具として使いこなすことで、経験の浅い受講者でも実務レベルの要件定義に到達できる状態を目指します。</p>
+
+<!-- Section 2 -->
+<h2 id="s2"><span class="section-num">2</span>Ch.1 要件定義演習の設計</h2>
+
+<h3 id="s2-1">2-1. 学べること</h3>
+
+<ul>
+  <li><strong>曖昧要望の解体</strong>：顧客の表向きの理由（「他社もやってる」）を疑い、真の目的を掘る</li>
+  <li><strong>逆質問の設計</strong>：AIに聞くべき質問を作らせる／自分で作る両輪</li>
+  <li><strong>手法をAIで回す</strong>：INVEST／MoSCoW／非機能／AC の各技法をAIに実行させる型</li>
+  <li><strong>判断力</strong>：AIアウトプットの妥当性をレビューし、採用可否を決める</li>
+  <li><strong>スコープの引き算</strong>：Won't を明示する練習</li>
+  <li><strong>非機能・エッジケースの体系的洗い出し</strong></li>
+</ul>
+
+<h3 id="s2-2">2-2. 演習の流れ（5ステップ）</h3>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <h4>① 出題</h4>
+    <div class="timeline-meta">エージェント → 受講者</div>
+    <p>顧客（田中さん）が曖昧な要望を出す。「レビュー機能つけたい、いい感じにお願い」のような、あえて情報不足な依頼。</p>
+  </div>
+  <div class="timeline-item">
+    <h4>② 逆質問</h4>
+    <div class="timeline-meta">受講者 → エージェント</div>
+    <p>顧客に質問して目的・条件を引き出す。顧客は聞かれた分だけ小出しに答え、重要事項も自分からは言わない。</p>
+  </div>
+  <div class="timeline-item">
+    <h4>③ 手法で詰める</h4>
+    <div class="timeline-meta">受講者 + 自分のAI</div>
+    <p>引き出した内容を INVEST／MoSCoW／非機能／AC の技法で仕様に整える。AIに実行させて判断・修正。</p>
+  </div>
+  <div class="timeline-item">
+    <h4>④ 提出</h4>
+    <div class="timeline-meta">受講者 → エージェント</div>
+    <p>できあがった仕様を「評価して」と提出。指定フォーマットに沿って貼る。</p>
+  </div>
+  <div class="timeline-item">
+    <h4>⑤ 採点・再挑戦</h4>
+    <div class="timeline-meta">エージェント → 受講者</div>
+    <p>隠れた論点をいくつ掘れたか採点。漏れを埋めて再挑戦する。</p>
+  </div>
+</div>
+
+<h3 id="s2-3">2-3. エージェント <code>spec-sparring-client</code> の役割</h3>
+
+<p><strong>「曖昧な顧客」を演じる相手役AI</strong>。EC事業部PM・田中さんを演じ、出題〜応答〜採点の3モードを切り替える。</p>
+
+<table>
+  <tr><th>モード</th><th>やること</th></tr>
+  <tr><td>出題</td><td>曖昧な要望を人間らしく提示。演習ガイド・提出フォーマットも同時に。</td></tr>
+  <tr><td>顧客応答</td><td>受講者の質問に顧客として答える。★聞かれた分だけ小出し</td></tr>
+  <tr><td>評価</td><td>提出仕様と隠し仕様を照合し、観点別に採点</td></tr>
+</table>
+
+<h3 id="s2-4">2-4. 関連文書マップ</h3>
+
+<pre><code>aidd-curriculum/
+├── README.md                         ← 概要・準備・使い方（最初に読む）
+├── 受講者ガイド.md                    ← 1枚版ガイド・提出フォーマット・模範解答
+├── 手法をAIで回すプロンプト集.md        ← INVEST/MoSCoW等の実行プロンプト雛形
+└── .claude/agents/
+    └── spec-sparring-client.md        ← エージェント定義（隠し仕様含む・非開示）</code></pre>
+
+<table>
+  <tr><th>文書</th><th>役割</th><th>受講者が見るタイミング</th></tr>
+  <tr><td>README.md</td><td>入口。準備〜演習の概略</td><td>最初</td></tr>
+  <tr><td>受講者ガイド.md</td><td>1枚で流れ・フォーマット・模範解答</td><td>演習前〜演習中</td></tr>
+  <tr><td>手法をAIで回すプロンプト集.md</td><td>INVEST等の実行プロンプト</td><td>ステップ③で参照</td></tr>
+  <tr><td>spec-sparring-client.md</td><td>エージェント定義（受講者は開かない）</td><td>開いてはいけない</td></tr>
+</table>
+
+<!-- Section 3 -->
+<h2 id="s3"><span class="section-num">3</span>エージェント内部設計（レビュー対象）</h2>
+
+<h3 id="s3-1">3-1. 3モードの動作</h3>
+
+<table>
+  <tr><th>モード</th><th>トリガー</th><th>ルール</th></tr>
+  <tr>
+    <td>出題</td>
+    <td>「出題して」＋題材ID</td>
+    <td>初期要望を人間らしく提示。真の目的や隠し論点は出さない</td>
+  </tr>
+  <tr>
+    <td>顧客応答</td>
+    <td>受講者の質問・確認・提案</td>
+    <td>聞かれた分だけ回答。★隠し論点は「初期反応」に従いわざと逆を言うことも</td>
+  </tr>
+  <tr>
+    <td>評価</td>
+    <td>「評価して」＋提出仕様</td>
+    <td>隠し仕様と照合し、観点別＋隠し論点発掘数で採点</td>
+  </tr>
+</table>
+
+<h3 id="s3-2">3-2. 難易度別ヒント設計</h3>
+
+<table>
+  <tr><th>難易度</th><th>ヒント</th><th>設計意図</th></tr>
+  <tr><td>易</td><td>「隠れた論点が <strong>3個</strong>。利用制限・性能・運用を掘って」</td><td>個数＋観点カテゴリ両方明示</td></tr>
+  <tr><td>標準</td><td>「非機能・運用も自分から問うて」</td><td>観点だけ・個数は伏せる（おすすめ）</td></tr>
+  <tr><td>難</td><td>ヒントなし</td><td>実戦に近づけたい人向け</td></tr>
+</table>
+
+<h3 id="s3-3">3-3. 隠し仕様（review-feature／標準）</h3>
+
+<div class="callout danger">
+  <div class="callout-title">レビュアー閲覧用（受講者非開示）</div>
+  <p>受講者ガイドで「開かないでください」と明記されている隠し仕様の中身。<strong>レビュー会限定で共有</strong>。</p>
+</div>
+
+<pre><code>題材ID: review-feature
+シチュエーション: 新規0→1
+初期要望: "商品ページにレビュー機能つけたい。いい感じにお願い。"
+顧客像: EC事業部のPM（田中さん）。非エンジニア。忙しく、細かい仕様は考えていない。
+真の目的: 購入検討者の不安を減らし、購入率を上げる（"他社もやってる"は表向き）
+真のユーザー: 購入検討中の新規訪問者
+
+must:
+  - テキストレビューの投稿・表示
+should:            # 手動運用で代替でき、初期は落とせる
+  - 画像投稿
+wont:
+  - レビューへの返信機能
+
+隠し論点（罠・受講者が掘らないと出てこない）:
+  - id: 投稿者制限
+    内容: 投稿は購入者限定（サクラ・荒らし対策）
+    顧客の初期反応: "誰でも書けた方が数が集まっていいよね"   # わざと逆を言う
+    掘り当ての目安: 「未購入者の投稿リスクは？」等を問えたか
+  - id: 表示性能
+    内容: 大量レビュー時の表示件数・並び順（新着順/高評価順）
+    顧客の初期反応: 自分からは言及しない
+  - id: 通報フロー
+    内容: 不適切投稿の通報・非表示の運用フロー
+    顧客の初期反応: 自分からは言及しない
+
+非機能:
+  - 1商品に大量のレビューが付いても表示速度が落ちないこと
+用語のズレ:
+  - 語: "レビュー"
+    曖昧さ: ☆評価（点数）を含むか否かが不明確
+エッジケース:
+  - 同一ユーザーの二重投稿の扱い
+  - レビュー0件時の表示</code></pre>
+
+<h3 id="s3-4">3-4. 評価ルーブリック</h3>
+
+<p>達成／一部／未達 の 3段階で、以下6観点を判定：</p>
+
+<table>
+  <tr><th>観点</th><th>見るもの</th></tr>
+  <tr><td>目的の明確化</td><td>真のビジネス目的にたどり着けているか</td></tr>
+  <tr><td>INVEST</td><td>独立・価値・見積可能・Small・検証可能か</td></tr>
+  <tr><td>スコープ</td><td>MoSCoWで引き算し、Won'tを明示できているか</td></tr>
+  <tr><td>非機能</td><td>性能・セキュリティ・運用を拾えているか</td></tr>
+  <tr><td>AC網羅性</td><td>正常系・異常系・境界値・具体例が入っているか</td></tr>
+  <tr><td>隠し論点の発掘</td><td>「罠」を何個掘り当てたか</td></tr>
+</table>
+
+<div class="callout note">
+  <div class="callout-title">方針決定済み</div>
+  <p>採点は <strong>点数化しない</strong>方針。要件定義は正解が一つに定まらない領域であり、観点別評価＋良かった点／漏れた点／次の一手 で十分な学習効果があるため。</p>
+</div>
+
+<!-- Section 4 -->
+<h2 id="s4"><span class="section-num">4</span>実演結果（作成者による通し実行）</h2>
+
+<h3 id="s4-1">4-1. 実施サマリ</h3>
+
+<table>
+  <tr><th>項目</th><th>内容</th></tr>
+  <tr><td>実施日</td><td>2026-07-22</td></tr>
+  <tr><td>実施者</td><td>森（作成者・受講者役でテスト）</td></tr>
+  <tr><td>題材</td><td>review-feature</td></tr>
+  <tr><td>難易度</td><td>標準</td></tr>
+  <tr><td>モデル</td><td>Claude Opus 4.7 (1M context)</td></tr>
+  <tr><td>やり取り数</td><td>顧客とのラリー 5往復＋採点1回</td></tr>
+  <tr><td>結果</td><td>隠し論点 3/3 発掘。ランクS評価</td></tr>
+</table>
+
+<h3 id="s4-2">4-2. 主要ハイライト</h3>
+
+<h4>ハイライト1：真の目的を掘り当てた瞬間</h4>
+
+<div class="quote user">
+  <div class="quote-header">受講者</div>
+  レビューをつける目的はなんですか？「他者がつけてるから」は浅いと思います。<br>
+  商品改善のためか、顧客同士でレビューを見合って購入意欲をあげたいのか。
+</div>
+
+<div class="quote tanaka">
+  <div class="quote-header">田中さん</div>
+  うっ、鋭いね…確かに「他社がやってるから」は言い訳っぽかった。<br>
+  正直に言うと、商品ページの直帰率がけっこう高くて。特にスマホから来た新規のお客さんが、カートまで行かずに離脱してるのが気になってて。<br>
+  買おうか迷ってる人に、他のお客さんの声を見せて、購入まで進んでもらいたい——が本音。
+</div>
+
+<h4>ハイライト2：「わざと逆を言う罠」が機能した</h4>
+
+<p>顧客は「投稿者は誰でも書けた方が数が集まっていいよね」と誘導するが、受講者が「サクラリスクは？」と疑って購入者限定に落ち着かせた。<strong>本カリキュラムのハイライト</strong>。</p>
+
+<h4>ハイライト3：用語ズレを田中さんから逆質問</h4>
+
+<div class="quote tanaka">
+  <div class="quote-header">田中さん（会話終盤）</div>
+  あ、あとさ、聞いていい？ これちょっと今さらなんだけど、<strong>レビューって「星いくつ」みたいな点数もつけるやつ？ それとも文章だけ？</strong> 私さっきから「レビュー」って言ってたけど、そこ自分でもはっきりさせないまま話してたわ。
+</div>
+
+<p>用語のズレ（星の有無）を最後まで温存し、顧客側から気づかせる運びが教育的に上手く機能した。</p>
+
+<h3 id="s4-3">4-3. 最終成果物（抜粋）</h3>
+
+<details>
+  <summary>提出した要件定義書（フル）</summary>
+
+  <h4>■ 目的</h4>
+  <p>主目的：新規スマホユーザーの離脱率を下げ、購入CVR向上（+10〜20% relative）／副次目的：商品改善のシグナル活用（優先度低）</p>
+
+  <h4>■ ユーザーストーリー</h4>
+  <ul>
+    <li>S1 閲覧：購入検討者として商品ページで星＋テキストレビューを見たい</li>
+    <li>S2 投稿：購入者として星＋テキストを投稿したい</li>
+    <li>S3 モデレーション：運営者として不適切レビューを自動＋通報で検出・非表示化したい</li>
+    <li>S4 計測：EC事業部としてCV貢献を計測したい</li>
+  </ul>
+
+  <h4>■ MoSCoW</h4>
+  <p><strong>Must</strong>：星＋テキスト投稿／購入者限定／平均星＋件数表示／0件時UI非表示／NGワード＋緊急タグ即非公開／通報機能／通常24h・緊急2h SLA／段階ロールアウト／ステマ規制対応</p>
+  <p><strong>Should</strong>：写真投稿／並び替え／参考になった投票／投稿者本人の編集・削除／副KPIダッシュボード／A/Bテスト基盤</p>
+  <p><strong>Could</strong>：運営返信／バリエーション別／レビュアー属性／多言語</p>
+  <p><strong>Won't</strong>：社員レビュー／匿名投稿／事前審査モデレーション／24h当直／インセンティブ付き投稿</p>
+
+  <h4>■ 非機能</h4>
+  <p>性能（一覧p95 1.5s／投稿p95 3s）、可用性99.5%＋機能分離、セキュリティ（CSRF/XSS/個人情報検出/Rate limit）、コンプライアンス（景表法・ステマ規制・個人情報保護法）、運用（平日9-18時対応＋条件付き翌営業日許容）、アクセシビリティ（WCAG 2.1 AA・スマホ最適化）</p>
+
+  <h4>■ AC（10本）</h4>
+  <p>閲覧正常系／閲覧0件／投稿正常系／未購入者拒否／重複投稿防止／境界値／モデレーション緊急語検知／通報／疑似A/B計測／可用性分離</p>
+</details>
+
+<h3 id="s4-4">4-4. 採点結果</h3>
+
+<div class="score-box">
+  <div>
+    <div class="score-label">Overall Evaluation</div>
+    <div class="score-value">ランク S</div>
+    <div class="score-rank">実務投入可能レベル</div>
+  </div>
+  <div style="text-align: right;">
+    <div class="score-label">Hidden Points Discovered</div>
+    <div class="score-value">3 / 3</div>
+    <div class="score-rank">全隠し論点を発掘</div>
+  </div>
+</div>
+
+<table>
+  <tr><th>観点</th><th>評価</th><th>コメント</th></tr>
+  <tr><td>目的の明確化</td><td>達成</td><td>CVR向上という真の目的に到達、KPIも定量化</td></tr>
+  <tr><td>INVEST</td><td>達成</td><td>4ストーリーに適切に分割、独立性・検証性◎</td></tr>
+  <tr><td>スコープ</td><td>達成</td><td>MoSCoW全て埋め、Won'tも具体的</td></tr>
+  <tr><td>非機能</td><td>達成</td><td>性能・可用性・セキュリティ・運用・法令まで網羅</td></tr>
+  <tr><td>AC網羅性</td><td>達成</td><td>正常系・異常系・境界値・SLAまで具体化（10本）</td></tr>
+  <tr><td>隠し論点の発掘</td><td>達成</td><td>3/3個すべて掘り当て</td></tr>
+</table>
+
+<div class="callout note">
+  <div class="callout-title">重要な注意</div>
+  <p>この採点は <strong>「エージェントの好意的なアドリブ」も含んだ結果</strong>。同じ回答でも別セッションだと採点がブレる可能性については §6 で議論します。</p>
+</div>
+
+<!-- Section 5 -->
+<h2 id="s5"><span class="section-num">5</span>AI側の自己観察</h2>
+
+<p>実際にセッションを走らせた側（Claude Code / エージェント）から見た所感。</p>
+
+<h3>5-1. 気になった点</h3>
+
+<div class="callout warn">
+  <div class="callout-title">顧客役エージェントが親切すぎる／整いすぎている</div>
+  <p>田中さんの各返答が段落構成・オチまで綺麗。判断疲れのPMというより「良い先生」に近い。実務PMなら「あー、それは今度」で切ったり、質問を無視して別の話題を始めたりする。</p>
+  <p>また、反論・抵抗が薄い。「購入者限定」提案を3つの理由で即受け入れたが、実務顧客は一度は「でもさぁ、他社は…」と粘る。</p>
+</div>
+
+<div class="callout warn">
+  <div class="callout-title">Claude Code本体が代行しすぎる</div>
+  <p>INVEST整理・3ブロッカーの提案文・最終まとめのいずれも、Claude Code本体がほぼ全部組み上げて受講者は"OK"と承認するだけのフローになった。「手法をAIで回すプロンプト集.md」を受講者が開くタイミングは実質ゼロだった。</p>
+</div>
+
+<h3>5-2. 良かった点（維持したい）</h3>
+
+<div class="callout good">
+  <div class="callout-title">初回シーン描写の解像度</div>
+  <p>金曜夕方・スマホで競合サイトを見せる・20分後に会議、といった描写が没入感を作った。</p>
+</div>
+
+<div class="callout good">
+  <div class="callout-title">用語ズレの温存と逆質問誘発</div>
+  <p>星の有無を最後まで温存し、田中さん側から逆質問させた運びは教育設計として優秀。顧客が自分で気づく経験を受講者に見せられた。</p>
+</div>
+
+<div class="callout good">
+  <div class="callout-title">「わざと逆を言う罠」の作動</div>
+  <p>購入者制限のトラップが機能した瞬間は、このカリキュラム最大のハイライト。</p>
+</div>
+
+<div class="callout good">
+  <div class="callout-title">採点時の二層構造</div>
+  <p>「田中さんの一言 → コーチ視点の詳細講評」の形式は、キャラクターを壊さずに学習にも落とし込める。</p>
+</div>
+
+<!-- Section 6 -->
+<h2 id="s6"><span class="section-num">6</span>改善候補と作成者方針</h2>
+
+<h3>6-1. 不採用とした改善案（作成者判断）</h3>
+
+<div class="callout" style="background: #f3f4f6; border-color: #9ca3af;">
+  <div class="callout-title"><span class="tag reject">不採用</span> 採点の点数化（100点満点＋配点表）</div>
+  <p><strong>理由：</strong>要件定義は正解が一つに定まらない領域。観点別 達成／一部／未達 ＋ 良かった点／漏れた点／次の一手 で十分。点数化はむしろ「点取り」に意識が向いて学習の主眼をブラす。</p>
+</div>
+
+<div class="callout" style="background: #f3f4f6; border-color: #9ca3af;">
+  <div class="callout-title"><span class="tag reject">不採用</span> タイム制約の一貫維持（20分演出の徹底）</div>
+  <p><strong>理由：</strong>このカリキュラムの目的は「AIを活用して要件を整理すること」。多少時間がかかっても良い。時間制約の演出は必須ではない。</p>
+</div>
+
+<h3>6-2. 部分的に受け入れる改善案</h3>
+
+<div class="callout note">
+  <div class="callout-title"><span class="tag decided">部分受入</span> 「Claude Code本体が代行しすぎる」問題</div>
+  <p>指摘は同意。ただし方針としては、<strong>「AIが出したものを読んで、問題がなければ進める、あれば詰める」</strong> という関わり方でOK。受講者が全プロンプトを自作する必要はない。</p>
+  <p><strong>AIアウトプットのレビューと判断こそが人間の役割</strong>、という立ち位置でカリキュラムを設計する。</p>
+</div>
+
+<h3>6-3. 継続検討したい改善案</h3>
+
+<table>
+  <tr><th>優先</th><th>項目</th><th>内容</th></tr>
+  <tr>
+    <td><span class="tag critical">最優先</span></td>
+    <td>隠し仕様の情報量拡張</td>
+    <td>bonus枠（加点項目）、副次目的、全隠し論点の初期反応、シチュエーションseed など追加</td>
+  </tr>
+  <tr>
+    <td><span class="tag high">高</span></td>
+    <td>顧客役の反論・抵抗パターン</td>
+    <td>実務顧客らしく一度は粘る／別の話題に飛ぶ／判断を持ち帰る、等のバリエーション</td>
+  </tr>
+  <tr>
+    <td><span class="tag high">高</span></td>
+    <td>mustの粒度と用語ズレの扱い</td>
+    <td>「星＋テキスト」がmustか否かの明確化。用語ズレ解消後の期待動作を定義</td>
+  </tr>
+  <tr>
+    <td><span class="tag mid">中</span></td>
+    <td>Won'tとCouldの境界ルール</td>
+    <td>「wont一致必須／could一致も可」等の照合ルールを明記</td>
+  </tr>
+  <tr>
+    <td><span class="tag mid">中</span></td>
+    <td>標準難度に法令/NFR系論点を追加</td>
+    <td>現状は機能・運用寄りに偏り。景表法・ステマ規制・アクセシビリティ等を1つ入れたい</td>
+  </tr>
+  <tr>
+    <td><span class="tag low">低</span></td>
+    <td>全隠し論点への「初期反応」定義</td>
+    <td>現状は投稿者制限だけ「わざと逆を言う」が定義。他2つも統一フォーマットで</td>
+  </tr>
+</table>
+
+<!-- Section 7 -->
+<h2 id="s7"><span class="section-num">7</span>レビュー会で議論したい論点</h2>
+
+<h3>7-1. 意思決定を求める項目</h3>
+
+<ol>
+  <li>
+    <strong>採点の非点数化方針でOKか</strong><br>
+    <span style="color: var(--color-muted); font-size: 13px;">→ 作成者は不採用の判断。レビュアーの合意が欲しい。</span>
+  </li>
+  <li>
+    <strong>「Claude Code本体が代行する」ことをカリキュラム上どこまで許容するか</strong><br>
+    <span style="color: var(--color-muted); font-size: 13px;">→ 作成者は「AIレビューと判断が人間の役割」で妥協。制限を設ける案（例：受講者ガイドで「手法実行は自分で試して」と明記）と、現状維持案の是非。</span>
+  </li>
+  <li>
+    <strong>標準難度の隠し論点に法令/NFR系を追加するか</strong><br>
+    <span style="color: var(--color-muted); font-size: 13px;">→ 追加するなら景表法・ステマ規制・アクセシビリティのどれか。難易度バランスへの影響。</span>
+  </li>
+  <li>
+    <strong>mustの粒度をどこまで詳細化するか</strong><br>
+    <span style="color: var(--color-muted); font-size: 13px;">→ 「星＋テキスト」を明示 vs 現状の「テキストのみ」を維持し用語ズレで議論させる。</span>
+  </li>
+</ol>
+
+<h3>7-2. 意見を聞きたい項目</h3>
+
+<ul class="checklist">
+  <li>顧客役（田中さん）のキャラクターは妥当か？別バリエーション（別業種のPdM等）が必要か？</li>
+  <li>顧客役の反論・抵抗が薄い問題への対処方針</li>
+  <li>Won'tとCouldの境界基準を厳密化するか、緩めのままでよいか</li>
+  <li>受講者ガイド／README／プロンプト集の分担は妥当か、統合すべきか</li>
+  <li>他題材（review-feature以外）の題材リスト案があれば</li>
+</ul>
+
+<!-- Section 8 -->
+<h2 id="s8"><span class="section-num">8</span>今後のロードマップ</h2>
+
+<div class="callout note">
+  <div class="callout-title">レビュアー確認事項</div>
+  <p>以下は仮案。レビュー会で作成者から補足・修正します。</p>
+</div>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <h4>Phase 1（現在）：review-feature 標準の完成</h4>
+    <p>単一題材・単一難度でのプロトタイプ検証。本レビューがこのフェーズの締め。</p>
+  </div>
+  <div class="timeline-item">
+    <h4>Phase 2：改善反映＆難易度バリエーション整備</h4>
+    <p>レビューフィードバックを反映。易/標準/難の3難度で同一題材を検証可能に。</p>
+  </div>
+  <div class="timeline-item">
+    <h4>Phase 3：題材ラインナップ拡充</h4>
+    <p>既存追加（1→10）、リプレイスなど、review-feature以外の題材を追加。</p>
+  </div>
+  <div class="timeline-item">
+    <h4>Phase 4：β運用</h4>
+    <p>実際の受講者を対象とした試験運用と、そのフィードバックによる改善サイクル。</p>
+  </div>
+</div>
+
+<hr style="margin: 80px 0 40px; border: none; border-top: 1px solid var(--color-border);">
+
+<p style="text-align: center; color: var(--color-muted); font-size: 13px;">
+  以上｜レビュー資料 v1.0｜作成: 森 (2026-07-22)
+</p>
+
+</main>
+</div>
+
+<script>
+  // Smooth scroll for TOC
+  document.querySelectorAll('nav.toc a').forEach(link => {
+    link.addEventListener('click', e => {
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
