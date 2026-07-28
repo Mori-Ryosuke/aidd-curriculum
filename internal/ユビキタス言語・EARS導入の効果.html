@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ユビキタス言語・EARS 導入の効果 — AIDD要件定義カリキュラム Ch.1</title>
+<style>
+  :root{
+    --ink:#1a1d21; --sub:#5b6570; --line:#e2e6ea; --bg:#fff; --panel:#f7f9fa;
+    --accent:#1f6feb; --before:#b54708; --before-bg:#fff8f0; --after:#1a7f4b; --after-bg:#f2fbf6;
+    --warn:#8a6d00; --warn-bg:#fffbe8;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;
+    font-size:15px; line-height:1.85; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:920px; margin:0 auto; padding:56px 28px 96px}
+  header{border-bottom:3px solid var(--ink); padding-bottom:22px; margin-bottom:40px}
+  .eyebrow{font-size:12px; letter-spacing:.14em; color:var(--sub); font-weight:700; margin:0 0 10px}
+  h1{font-size:27px; line-height:1.4; margin:0 0 14px; letter-spacing:-.01em}
+  .meta{font-size:13px; color:var(--sub); margin:0}
+  h2{
+    font-size:19px; margin:52px 0 16px; padding-left:13px;
+    border-left:5px solid var(--accent); line-height:1.5;
+  }
+  h3{font-size:15px; margin:30px 0 10px; color:var(--ink)}
+  p{margin:0 0 14px}
+  .lead{
+    background:var(--panel); border:1px solid var(--line); border-radius:10px;
+    padding:22px 24px; margin:0 0 12px;
+  }
+  .lead p:last-child{margin-bottom:0}
+  .kpis{display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr)); gap:14px; margin:26px 0}
+  .kpi{border:1px solid var(--line); border-radius:10px; padding:16px 18px; background:#fff}
+  .kpi .n{font-size:26px; font-weight:800; letter-spacing:-.02em; line-height:1.2; color:var(--accent)}
+  .kpi .n small{font-size:14px; font-weight:700; color:var(--sub)}
+  .kpi .l{font-size:12.5px; color:var(--sub); margin-top:5px; line-height:1.6}
+  table{border-collapse:collapse; width:100%; margin:18px 0; font-size:13.5px}
+  th,td{border:1px solid var(--line); padding:10px 13px; text-align:left; vertical-align:top}
+  th{background:var(--panel); font-weight:700; white-space:nowrap}
+  td.num{text-align:center; white-space:nowrap}
+  .ba{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0}
+  .box{border:1px solid var(--line); border-radius:10px; padding:16px 18px}
+  .box.b{border-color:#f0c9a0; background:var(--before-bg)}
+  .box.a{border-color:#a9ddc1; background:var(--after-bg)}
+  .box .tag{font-size:11.5px; font-weight:800; letter-spacing:.08em; margin-bottom:9px}
+  .box.b .tag{color:var(--before)}
+  .box.a .tag{color:var(--after)}
+  .box p:last-child{margin-bottom:0}
+  code,.mono{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12.5px; background:rgba(0,0,0,.045); padding:1px 5px; border-radius:4px;
+  }
+  pre{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12.5px; line-height:1.75; background:#fff; border:1px solid var(--line);
+    border-radius:8px; padding:13px 15px; overflow-x:auto; margin:10px 0 0; white-space:pre-wrap;
+  }
+  .box.b pre{border-color:#f0c9a0; background:rgba(255,255,255,.65)}
+  .box.a pre{border-color:#a9ddc1; background:rgba(255,255,255,.7)}
+  ul,ol{margin:0 0 14px; padding-left:1.35em}
+  li{margin-bottom:7px}
+  .note{
+    background:var(--warn-bg); border:1px solid #ecd98a; border-radius:9px;
+    padding:15px 18px; font-size:13.5px; margin:22px 0;
+  }
+  .note strong{color:var(--warn)}
+  .note p:last-child{margin-bottom:0}
+  .verdict{
+    border:2px solid var(--after); background:var(--after-bg); border-radius:10px;
+    padding:18px 22px; margin:26px 0; font-weight:600;
+  }
+  .verdict p:last-child{margin-bottom:0}
+  footer{margin-top:64px; padding-top:20px; border-top:1px solid var(--line); font-size:12.5px; color:var(--sub)}
+  .hl{background:linear-gradient(transparent 62%, #ffe9a8 62%); font-weight:700}
+  @media (max-width:680px){
+    .ba{grid-template-columns:1fr}
+    .wrap{padding:36px 18px 72px}
+    h1{font-size:23px}
+  }
+  @media print{
+    body{font-size:11pt}
+    .wrap{max-width:none; padding:0}
+    h2{page-break-after:avoid}
+    .ba,.kpi,table,.note,.verdict{page-break-inside:avoid}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">AIDD 要件定義カリキュラム Ch.1 ／ レビュー指摘への対応報告</p>
+  <h1>ユビキタス言語・EARS を追加したことによる効果</h1>
+  <p class="meta">題材：review-feature（商品レビュー機能・難易度 標準）</p>
+</header>
+
+<div class="lead">
+  <p><strong>レビューでご指摘いただいた「ユビキタス言語」「EARS記法」の2手法を、演習・プロンプト集・採点ルーブリックの3箇所に追加しました。</strong>追加後に通しで演習を実施し、追加前の設計と比較しています。</p>
+  <p style="margin-bottom:0">結論として、この2つは<span class="hl">「受講者の成果物を良くする」効果より、「受講者の弱点が採点者から見えるようになる」効果の方が大きい</span>という結果になりました。以下、根拠を示します。</p>
+</div>
+
+<h2>1. 結論（3点）</h2>
+
+<ol>
+  <li><strong>ユビキタス言語は「最も手戻りの大きい種類のミス」を演習の中で顕在化させた。</strong>「レビュー」に星評価を含むかという解釈のズレが演習中に実際に発生し、受講者が自力で気づいて潰した。この1問を実装後に発見すると、影響はDB・集計・UI・API・テストの5領域に及ぶ。</li>
+  <li><strong>EARSは採点の解像度を上げた。</strong>追加前の6観点では「AC網羅性：達成」で終わっていた提出物から、丸め規則の未定義・ソートキーの曖昧さ・境界ACの欠落という3件の具体的な穴を名指しで指摘できるようになった。</li>
+  <li><strong>2手法の追加が、さらに1つの観点（仮定の明示と整合）の必要性を露呈させた。</strong>EARSで要件を書き切ると「決めた仮定」が本文に溶け込むため、未確認リストとの二重帳簿が起きる。副産物として採点観点をもう1つ追加した。</li>
+</ol>
+
+<div class="kpis">
+  <div class="kpi"><div class="n">6 <small>→ 9観点</small></div><div class="l">採点ルーブリックの観点数<br>（ユビキタス言語・EARS・仮定の整合）</div></div>
+  <div class="kpi"><div class="n">3 <small>件</small></div><div class="l">EARS観点があったから<br>指摘できた具体的な穴</div></div>
+  <div class="kpi"><div class="n">19 <small>→ 24本</small></div><div class="l">指摘反映後に増えた<br>受入条件（AC）の本数</div></div>
+  <div class="kpi"><div class="n">0 <small>分</small></div><div class="l">演習時間の増加<br>（AIに手法を回させるため）</div></div>
+</div>
+
+<h2>2. 何を追加したか</h2>
+
+<table>
+  <tr><th style="width:23%">資材</th><th>追加内容</th></tr>
+  <tr>
+    <td>手法をAIで回すプロンプト集</td>
+    <td>「2. ユビキタス言語」「6. EARS記法」の2節を追加（全6節→8節）。EARSは5つの型（常時／WHEN／WHILE／IF-THEN／WHERE）の説明つき</td>
+  </tr>
+  <tr>
+    <td>演習エージェント<br>（出題の進め方）</td>
+    <td>進め方を5ステップ→7ステップに。<code>①逆質問 → ②ユビキタス言語 → ③INVEST → ④MoSCoW → ⑤非機能 → ⑥EARS → ⑦AC</code></td>
+  </tr>
+  <tr>
+    <td>採点ルーブリック</td>
+    <td>「用語の統一（ユビキタス言語）」「要件の明確さ（EARS）」の2観点を追加。あわせて隠し論点の数え方を厳格化（触れただけは<code>△＝半分</code>）</td>
+  </tr>
+  <tr>
+    <td>受講者ガイド</td>
+    <td>手法一覧・模範解答を2手法に対応させて更新</td>
+  </tr>
+</table>
+
+<p><strong>設計上の位置づけ：</strong>2手法は既存手法の間に挟まる形で、それぞれ別の穴を塞いでいます。ユビキタス言語は<span class="mono">逆質問 → INVEST</span> の間（＝ストーリーを書き始める<em>前</em>に語彙を揃える）、EARSは <span class="mono">非機能 → AC</span> の間（＝Given-When-Thenに落とす<em>前</em>に曖昧語を排す）。順序に意味があるため、この位置に固定しています。</p>
+
+<h2>3. 効果①：ユビキタス言語 — 最も高くつくミスを演習内で顕在化させた</h2>
+
+<h3>演習の中で実際に起きたこと</h3>
+<p>顧客役（EC事業部PM・田中さん）の初期要望は「商品ページにレビュー機能つけたい。いい感じにお願い」。<strong>この時点で、受講者と顧客は「レビュー」という語を違う意味で使っていました。</strong></p>
+
+<div class="ba">
+  <div class="box b">
+    <div class="tag">受講者の理解</div>
+    <p>レビュー ＝ <strong>文章（感想）</strong></p>
+    <p style="font-size:13px;color:var(--sub)">テキストの投稿・表示ができればよい</p>
+  </div>
+  <div class="box a">
+    <div class="tag">顧客の頭の中</div>
+    <p>レビュー ＝ <strong>★がピカピカ付いていて文章もある、あの感じ</strong></p>
+    <p style="font-size:13px;color:var(--sub)">「他社のがそうだから」以上の言語化はされていない</p>
+  </div>
+</div>
+
+<p>受講者は表示の並び順を検討する過程で「評価の高い順」という言葉を自分で使い、<strong>そこに星が前提されていることに自分で気づいて</strong>顧客に確認しました。顧客の回答は「あー、そこか。正直あんまり区別してなかったわ」。</p>
+
+<h3>この1問の価値（＝実装後に発見した場合の影響範囲）</h3>
+<table>
+  <tr><th style="width:27%">領域</th><th>星を後から足す場合に発生する変更</th></tr>
+  <tr><td>データ</td><td>レビューテーブルに評価列を追加。既存レビューの値をどうするか（NULL許容／一律値）の判断が必要</td></tr>
+  <tr><td>集計</td><td>平均評価・件数の保持と再計算。非表示レビューを母数から外す処理</td></tr>
+  <tr><td>画面（閲覧）</td><td>一覧の星表示、商品ページ上部の平均評価サマリ</td></tr>
+  <tr><td>画面（投稿）</td><td>星の入力UI、必須バリデーション</td></tr>
+  <tr><td>機能</td><td>「評価の高い順」の並び替え（星がなければ実装不能）</td></tr>
+  <tr><td>API・テスト</td><td>レスポンス契約の変更、既存テストの改修</td></tr>
+</table>
+
+<p><span class="hl">要件定義の段階なら「星は付きますか？」という一問で済み、所要は数十秒です。</span>この非対称性こそが、ユビキタス言語を独立した工程として置く理由であり、演習で体験させたい山場でした。</p>
+
+<h3>追加前の設計では、ここは採点対象になっていなかった</h3>
+<p>「用語のズレ」は元々、隠し仕様に仕込まれてはいました。しかし<strong>採点ルーブリックには対応する観点がなく</strong>、掘り当てても掘り漏らしても点差になりませんでした。今回2観点を追加したことで、はじめて「用語を定義したか」を評価できるようになっています。</p>
+
+<h2>4. 効果②：EARS — 採点の解像度が上がった</h2>
+
+<h3>受講者の成果物への効果</h3>
+<p>提出物の中で、曖昧な日本語が検証可能な条件に置き換わりました。特に <code>IF ... THEN</code> の型が異常系の抜けを可視化しています。</p>
+
+<div class="ba">
+  <div class="box b">
+    <div class="tag">EARS導入前によくある書き方</div>
+    <pre>・大量のレビューがあっても
+  遅くならないこと
+・不適切な投稿は
+  良しなに対応できること
+・エラー時は適切に処理する</pre>
+    <p style="font-size:13px;margin-top:11px">「遅くない」「良しなに」「適切に」＝ 実装者が各自の解釈で決めることになる</p>
+  </div>
+  <div class="box a">
+    <div class="tag">EARS導入後（今回の提出物より）</div>
+    <pre>WHEN 訪問者が商品ページを開いたとき、
+  システムは公開中レビューを投稿日時の
+  降順に最大20件表示すること
+
+IF レビュー取得に失敗した場合、THEN
+  システムは商品情報とカート導線を通常
+  表示し、レビュー欄のみエラー表示すること
+
+WHILE 公開中レビューが0件である間、
+  システムは「まだレビューがありません」
+  を表示し、平均評価を表示しないこと</pre>
+  </div>
+</div>
+
+<p>提出物には <code>IF-THEN</code> 型の要件が8本含まれていました。うち「レビュー取得に失敗しても商品ページ本体とカートボタンは生きている」という縮退要件は、<strong>顧客との会話には一度も出てこなかった論点</strong>です。型に当てはめる過程で受講者が自力で追加しました。</p>
+
+<h3>採点への効果 — ここが最も大きい</h3>
+<p>EARS観点を追加した結果、<strong>従来なら「AC網羅性：達成」で流れていた提出物から、3件の具体的な欠陥を名指しで指摘できました。</strong>いずれも「網羅性」というくくりでは表現できない、粒度の細かい曖昧さです。</p>
+
+<table>
+  <tr><th style="width:24%">指摘</th><th>内容</th><th style="width:31%">放置した場合に起きること</th></tr>
+  <tr>
+    <td>平均評価の丸め規則が未定義</td>
+    <td>「小数第1位まで表示」としか書かれておらず、4.25 が 4.2 か 4.3 か決まっていない</td>
+    <td>実装者が独自判断 → 後から「四捨五入だと思っていた」で修正。表示される評価点は争いになりやすい</td>
+  </tr>
+  <tr>
+    <td>「新着順」のソートキーが不明</td>
+    <td>投稿日時か更新日時か未定義。レビューは書き直せる仕様になっている</td>
+    <td>更新で先頭に浮上する実装になると、書き直しを繰り返して自分のレビューを上位固定できる（1人1件の制限が抜け道で無効化）</td>
+  </tr>
+  <tr>
+    <td>自分で決めた閾値の境界ACがない</td>
+    <td>「1000文字を超えたら拒否」と書いたのに、AC に 1000／1001 のケースがない</td>
+    <td>off-by-one の温床。AC19本のうち、この1件だけが抜けていた</td>
+  </tr>
+</table>
+
+<p>3件とも <strong>「EARSで書いた要件」と「AC」を突き合わせて初めて見つかる</strong>種類の穴です。EARS観点がなければ、この提出物は全観点「達成」で終わっていた可能性が高い。<span class="hl">受講者にとっては「合格したのに次に何を伸ばせばいいか分からない」状態が、「この3点を直せ」に変わりました。</span></p>
+
+<h2>5. 提出物に現れた変化</h2>
+
+<table>
+  <tr><th style="width:34%">項目</th><th class="num" style="width:16%">初回提出</th><th class="num" style="width:16%">指摘反映後</th><th>備考</th></tr>
+  <tr><td>用語定義（ユビキタス言語）</td><td class="num">10語</td><td class="num">12語</td><td>丸め規則・文字数の数え方・投稿日時／更新日時の区別を追加</td></tr>
+  <tr><td>EARS要件</td><td class="num">22文</td><td class="num">24文</td><td>うち IF-THEN（異常系）8本</td></tr>
+  <tr><td>受入条件（AC）</td><td class="num">19本</td><td class="num">24本</td><td>追加5本はすべて境界値（丸め・1件時・文字数上限・表示名・0件時CTA）</td></tr>
+  <tr><td>観点別評価</td><td class="num" colspan="2">8観点中<br>達成6・一部2</td><td>「一部」の2つが EARS と AC網羅性 ＝ 新設観点が機能した</td></tr>
+  <tr><td>隠し論点（罠）の発掘</td><td class="num" colspan="2">3個中3個</td><td>投稿者制限・表示性能・通報フロー</td></tr>
+</table>
+
+<div class="note">
+  <p><strong>数値の読み方について。</strong>同一受講者・同一題材での追加前後の対照は取っていないため、「AC本数が増えた」等の数値は、手法の効果と受講者の力量を分離できていません。</p>
+  <p>一方で、<strong>「EARS観点があったから3件の指摘が出せた」という事実は、観点の有無に直接起因します。</strong>指摘3件はいずれも、旧6観点のどこにも対応する記述枠がありません。</p>
+</div>
+
+<h2>6. 副次効果：さらに1観点の必要性が見つかった</h2>
+
+<p>2手法を入れて実走したことで、想定していなかった問題が表面化しました。</p>
+
+<p><strong>EARSで要件を書き切ると、「顧客に確認できていないので仮に決めた値」が本文に溶け込みます。</strong>たとえば「本文が1000文字を超える場合は拒否する」と書いた時点で、1000という数字は仕様として確定して見える。ところが受講者は末尾の未確認事項リストにも「文字数上限は未確認」と書いていました。<strong>同じ項目が二箇所に、違うステータスで存在する状態</strong>です。実装者はどちらを信じればいいか分かりません。</p>
+
+<div class="ba">
+  <div class="box b">
+    <div class="tag">問題（二重帳簿）</div>
+    <pre>本文：IF 本文が1000文字を超える場合、
+     THEN 投稿を拒否すること
+
+未確認事項：
+  ・文字数上限（未確認）</pre>
+  </div>
+  <div class="box a">
+    <div class="tag">改善後（Q番号で参照）</div>
+    <pre>本文：IF 本文が1000文字を超える場合、
+     THEN 投稿を拒否すること［仮置き:Q1］
+
+未確認事項：
+  Q1 文字数上限＝1000字で仮置き
+     → 顧客（委任済み・事後承認）</pre>
+  </div>
+</div>
+
+<p>そこで採点ルーブリックに<strong>「仮定の明示と整合」</strong>を追加しました（①仮定を明記したか ②仮定と本文が矛盾していないか ③誰に確認すべきかが書かれているか）。顧客役は「そっちで決めて『こうしました』って書いといて」と委任してくる挙動を持っているため、採点材料は毎回安定して発生します。</p>
+
+<p>これは<strong>2手法を追加しなければ表面化しなかった問題</strong>です。指摘いただいた2手法が、カリキュラム全体の精度を一段上げたと考えています。</p>
+
+<div class="verdict">
+  <p><strong>総括：2手法の追加は妥当だったと考えています。</strong></p>
+  <p>特にEARSは、受講者の成果物を良くする以上に「採点者が受講者の弱点を具体的に指摘できるようになる」効果が大きく、演習カリキュラムとしての価値が上がりました。ユビキタス言語は、実装後に発見すると最も高くつく種類のミス（用語の解釈違い）を、演習の中で体験させる装置として機能しています。</p>
+</div>
+
+<footer>
+  AIDD 要件定義カリキュラム Ch.1 ／ 本資料は講師・作成者向けの内部資料です（演習の答えを含むため受講者には非公開）。
+</footer>
+
+</div>
+</body>
+</html>
