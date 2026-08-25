@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AIDDカリキュラム 全章通し演習 方針案</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #6b7280;
+    --accent: #3b5bdb;
+    --accent-light: #eaf0ff;
+    --border: #e5e7eb;
+    --card: #f9fafb;
+    --good-bg: #d1fae5;
+    --good-bd: #10b981;
+    --warn-bg: #fef3c7;
+    --warn-bd: #f59e0b;
+    --note-bg: #dbeafe;
+    --note-bd: #3b82f6;
+    --font-jp: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+    --font-mono: "SF Mono", Monaco, Consolas, "Courier New", monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: var(--font-jp); color: var(--fg); background: var(--bg);
+    line-height: 1.75; margin: 0; font-size: 15px; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .hero { background: linear-gradient(180deg, #f5f7ff 0%, #ffffff 100%); border-bottom: 1px solid var(--border); padding: 48px 24px 36px; margin-bottom: 40px; }
+  .hero-inner { max-width: 1040px; margin: 0 auto; }
+  .hero h1 { font-size: 28px; margin: 0 0 8px; letter-spacing: .01em; }
+  .hero .sub { color: var(--muted); font-size: 15px; margin: 0 0 20px; }
+  .hero .meta { font-size: 13px; color: var(--muted); }
+
+  section { margin: 0 0 56px; scroll-margin-top: 20px; }
+  h2 { font-size: 21px; margin: 0 0 6px; padding-bottom: 10px; border-bottom: 2px solid var(--accent); display: inline-block; }
+  .lead { color: var(--muted); font-size: 14px; margin: 10px 0 22px; }
+  h3 { font-size: 16px; margin: 28px 0 12px; }
+
+  .toc { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; margin-bottom: 44px; }
+  .toc-title { font-size: 12px; letter-spacing: .08em; color: var(--muted); margin-bottom: 10px; }
+  .toc ol { margin: 0; padding-left: 20px; columns: 2; column-gap: 32px; font-size: 14px; }
+  .toc li { margin: 4px 0; }
+  .toc a { color: var(--accent); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  .box { border-radius: 8px; padding: 16px 18px; margin: 16px 0; border-left: 4px solid; }
+  .box p:last-child { margin-bottom: 0; }
+  .box p:first-child { margin-top: 0; }
+  .box.good { background: var(--good-bg); border-color: var(--good-bd); }
+  .box.warn { background: var(--warn-bg); border-color: var(--warn-bd); }
+  .box.note { background: var(--note-bg); border-color: var(--note-bd); }
+
+  .decision { border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; margin: 18px 0; background: #fff; }
+  .decision-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  .decision-no { background: var(--accent); color: #fff; font-size: 12px; font-weight: 600; border-radius: 4px; padding: 3px 9px; }
+  .decision-q { font-size: 16px; font-weight: 600; }
+  .decision-note { font-size: 13px; color: var(--muted); margin: 6px 0 14px; }
+  .opts { display: grid; gap: 10px; }
+  .opt { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; background: var(--card); font-size: 14px; }
+  .opt.rec { border-color: var(--good-bd); background: #f0fdf7; border-width: 2px; }
+  .opt-name { font-weight: 600; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .badge { font-size: 11px; font-weight: 600; border-radius: 999px; padding: 2px 10px; }
+  .badge-rec { background: var(--good-bd); color: #fff; }
+  .badge-alt { background: #e5e7eb; color: #4b5563; }
+  .opt-body { color: #374151; margin-top: 5px; font-size: 13.5px; }
+  .opt-body .pro { color: #047857; }
+  .opt-body .con { color: #b91c1c; }
+
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 14px 0; }
+  th, td { border: 1px solid var(--border); padding: 9px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--card); font-weight: 600; }
+  tbody tr:nth-child(even) { background: #fcfcfd; }
+  .center { text-align: center; }
+  tr.pick { background: #f0fdf7 !important; }
+  tr.pick td:first-child { font-weight: 600; }
+
+  /* flow with gates */
+  .flow2 { margin: 22px 0 8px; }
+  .frow { display: grid; grid-template-columns: 1fr 128px; gap: 10px; align-items: stretch; margin-bottom: 10px; }
+  .frow:last-child { margin-bottom: 0; }
+  .fstep { border: 1px solid var(--border); border-radius: 8px; padding: 13px 16px; background: #fff; display: grid; grid-template-columns: 62px 1fr 190px; gap: 14px; align-items: center; }
+  .fstep.done { border-color: var(--good-bd); background: #f0fdf7; }
+  .fch { font-size: 13px; font-weight: 700; color: var(--accent); }
+  .fstep.done .fch { color: var(--good-bd); }
+  .fmain { font-size: 14px; }
+  .fmain b { font-size: 14.5px; }
+  .fmain .frole { color: var(--muted); font-size: 12.5px; display: block; margin-top: 2px; }
+  .fout { font-size: 12.5px; color: #374151; background: var(--card); border-radius: 6px; padding: 6px 10px; }
+  .fgate { border: 1px dashed var(--warn-bd); background: var(--warn-bg); border-radius: 8px; padding: 8px; font-size: 11.5px; line-height: 1.5; display: flex; align-items: center; justify-content: center; text-align: center; color: #92400e; font-weight: 600; }
+  .fconn { text-align: center; color: var(--muted); font-size: 13px; margin: -2px 0 8px; }
+  .flow-cap { font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 10px; }
+  .status-done { background: var(--good-bd); color: #fff; font-size: 10px; font-weight: 600; border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; }
+
+  .chat { border: 1px solid var(--border); border-radius: 10px; padding: 18px; background: var(--card); margin: 14px 0; }
+  .msg { margin: 0 0 14px; display: flex; gap: 10px; }
+  .msg:last-child { margin-bottom: 0; }
+  .who { flex: 0 0 74px; font-size: 12px; font-weight: 600; color: var(--muted); padding-top: 8px; }
+  .bubble { flex: 1; border-radius: 10px; padding: 10px 14px; font-size: 13.5px; line-height: 1.7; }
+  .bubble.cust { background: #fff; border: 1px solid var(--border); }
+  .bubble.you { background: var(--accent-light); border: 1px solid #c7d5ff; }
+  .anno { font-size: 12px; color: var(--accent); margin-top: 6px; font-weight: 600; }
+
+  .ba { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; margin: 18px 0; }
+  .ba-card { border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .ba-card.before { background: #fff7f7; border-color: #fecaca; }
+  .ba-card.after { background: #f0fdf7; border-color: #a7f3d0; }
+  .ba-label { font-size: 12px; font-weight: 700; letter-spacing: .06em; margin-bottom: 8px; }
+  .ba-card.before .ba-label { color: #b91c1c; }
+  .ba-card.after .ba-label { color: #047857; }
+  .ba ul { margin: 0; padding-left: 18px; font-size: 13.5px; }
+  .ba li { margin: 5px 0; }
+  .arrow { font-size: 24px; color: var(--muted); }
+
+  /* cycle */
+  .cycle { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 16px 0 8px; }
+  .cy { border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; background: #fff; text-align: center; }
+  .cy-no { font-size: 11px; color: var(--muted); font-weight: 700; letter-spacing: .06em; }
+  .cy-t { font-size: 13.5px; font-weight: 600; margin: 4px 0 3px; }
+  .cy-b { font-size: 12px; color: #4b5563; line-height: 1.55; }
+
+  .tl { border-left: 2px solid var(--border); margin: 18px 0 18px 8px; padding-left: 22px; }
+  .tl-item { position: relative; margin-bottom: 18px; }
+  .tl-item:last-child { margin-bottom: 0; }
+  .tl-item::before { content: ""; position: absolute; left: -29px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+  .tl-item.done::before { background: var(--good-bd); }
+  .tl-step { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .tl-title { font-size: 14.5px; font-weight: 600; margin: 2px 0 3px; }
+  .tl-body { font-size: 13.5px; color: #374151; }
+
+  code { font-family: var(--font-mono); background: #f3f4f6; padding: 1px 5px; border-radius: 3px; font-size: 12.5px; }
+  .fine { font-size: 12.5px; color: var(--muted); }
+  hr.sep { border: 0; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  @media (max-width: 860px) {
+    .fstep { grid-template-columns: 1fr; gap: 6px; }
+    .frow { grid-template-columns: 1fr; }
+    .ba { grid-template-columns: 1fr; }
+    .arrow { text-align: center; transform: rotate(90deg); }
+    .toc ol { columns: 1; }
+    .cycle { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h1>AIDDカリキュラム 全章通し演習 方針案</h1>
+    <p class="sub">1つの題材（社内 備品貸出アプリ）を、5章すべてで作り切る実践演習にする</p>
+    <p class="meta">カリキュラム方針の相談資料 ／ 2026-07</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <div class="toc-title">目次</div>
+    <ol>
+      <li><a href="#s1">提案の要点</a></li>
+      <li><a href="#s2">なぜ「通し演習」にするのか</a></li>
+      <li><a href="#s3">演習の全体像（章末レビューで次へ）</a></li>
+      <li><a href="#s4">動作確認の状況（Ch.1 実物デモ）</a></li>
+      <li><a href="#s5">決めたいこと（論点3つ）</a></li>
+      <li><a href="#s6">作り方：1章ずつ検証しながら積み上げる</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section id="s1">
+    <h2>1. 提案の要点</h2>
+    <p class="lead">まずここだけ読めば全体像がつかめます。</p>
+
+    <div class="box note">
+      <p><strong>提案：</strong>AIDDカリキュラム5章を、<strong>1つの題材（社内 備品貸出アプリ）で最初から最後まで通す実践演習</strong>にします。受講者は各章でAIエージェントを相手に、要件定義 → 設計 → テスト計画 → 実装検証 → セキュリティまで、<strong>同じアプリを持ち回って</strong>品質を作り込み、最後に<strong>ローカルで動くアプリ</strong>を完成させます。</p>
+      <p style="margin-top:10px"><strong>各章の最後にはレビューを挟み、成果物を「正しい形」に整えてから次の章へ進みます。</strong>これにより、前の章でつまずいても後続が崩れません。</p>
+    </div>
+
+    <h3>決めたいこと</h3>
+    <table>
+      <thead>
+        <tr><th style="width:44px" class="center">#</th><th style="width:210px">論点</th><th>選択肢</th><th style="width:210px">推奨</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="center">①</td><td>どこまで作り切るか</td><td>ローカルで動く／公開まで／画面だけ</td><td><strong>ローカルで動く</strong></td></tr>
+        <tr><td class="center">②</td><td>題材</td><td>社内 備品貸出／会議室予約／有給申請 ほか</td><td><strong>社内 備品貸出アプリ</strong></td></tr>
+        <tr><td class="center">③</td><td>作り方</td><td>1章ずつ検証しながら／全章まとめて</td><td><strong>1章ずつ検証・改善しながら5章まで</strong></td></tr>
+      </tbody>
+    </table>
+
+    <div class="box good">
+      <p><strong>現在地：</strong>Ch.1（要件定義）の演習は、<strong>「商品ページへのレビュー機能追加」を題材に試作し、実際に1周通して動作を確認済み</strong>です。仕組みが成立することは検証できているので、これを備品貸出アプリの題材に作り替えて進めます（「4. 動作確認の状況」を参照）。</p>
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- 2 -->
+  <section id="s2">
+    <h2>2. なぜ「通し演習」にするのか</h2>
+    <p class="lead">現状は章ごとに演習が独立していて、章のつながりが体感できません。</p>
+
+    <div class="ba">
+      <div class="ba-card before">
+        <div class="ba-label">現状：章ごとに独立した演習</div>
+        <ul>
+          <li>章ごとに題材が変わり、毎回コンテキストを覚え直す</li>
+          <li>「前章の成果物が次章の入力になる」実感がない</li>
+          <li>実務は1つのプロダクトを通すのに、演習は分断されている</li>
+          <li>最後に手元に残るものがバラバラ</li>
+        </ul>
+      </div>
+      <div class="arrow">➜</div>
+      <div class="ba-card after">
+        <div class="ba-label">提案：1つの題材を全章で通す</div>
+        <ul>
+          <li>同じアプリを持ち回るので、章のつながりを体感できる</li>
+          <li>前章の成果物が、そのまま次章の入力になる</li>
+          <li>実務の流れ（上流→下流）と同じ構造で学べる</li>
+          <li>最後に「動くアプリ＋ドキュメント一式」が残る</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="fine">補足：現行カリキュラムも「1つの通し例」で全章を説明する構成です。今回の提案は、その考え方を演習にも広げるものです。</p>
+  </section>
+
+  <hr class="sep">
+
+  <!-- 3 -->
+  <section id="s3">
+    <h2>3. 演習の全体像</h2>
+    <p class="lead">同じ題材を持ち回り、各章でAIと対話しながら品質を作り込みます。<strong>章の最後には必ずレビューを挟み、正しい形に整えてから次へ進みます。</strong></p>
+
+    <div class="flow2">
+      <div class="frow">
+        <div class="fstep done">
+          <div class="fch">Ch.1<span class="status-done">動作確認済</span></div>
+          <div class="fmain"><b>要件定義</b><span class="frole">相手役：曖昧な顧客（PM・田中さん）</span></div>
+          <div class="fout">成果物：受入条件つき要件</div>
+        </div>
+        <div class="fgate">章末レビュー<br>→ 正の形へ</div>
+      </div>
+      <div class="fconn">↓ 前章の成果物が、次章の入力になる</div>
+
+      <div class="frow">
+        <div class="fstep">
+          <div class="fch">Ch.2</div>
+          <div class="fmain"><b>設計・構造化</b><span class="frole">相手役：設計レビュアー</span></div>
+          <div class="fout">成果物：実装できる粒度の要件</div>
+        </div>
+        <div class="fgate">章末レビュー<br>→ 正の形へ</div>
+      </div>
+      <div class="fconn">↓</div>
+
+      <div class="frow">
+        <div class="fstep">
+          <div class="fch">Ch.3</div>
+          <div class="fmain"><b>計画・テスト</b><span class="frole">相手役：QAリード</span></div>
+          <div class="fout">成果物：テスト計画・完了条件</div>
+        </div>
+        <div class="fgate">章末レビュー<br>→ 正の形へ</div>
+      </div>
+      <div class="fconn">↓</div>
+
+      <div class="frow">
+        <div class="fstep">
+          <div class="fch">Ch.4</div>
+          <div class="fmain"><b>実装・検証</b><span class="frole">相手役：コードレビュー役</span></div>
+          <div class="fout">成果物：動くアプリ＋検査結果</div>
+        </div>
+        <div class="fgate">章末レビュー<br>→ 正の形へ</div>
+      </div>
+      <div class="fconn">↓</div>
+
+      <div class="frow">
+        <div class="fstep">
+          <div class="fch">Ch.5</div>
+          <div class="fmain"><b>セキュリティ</b><span class="frole">相手役：セキュリティ監査役</span></div>
+          <div class="fout">成果物：判定＋改善計画</div>
+        </div>
+        <div class="fgate">最終レビュー<br>→ 完成</div>
+      </div>
+    </div>
+    <p class="flow-cap">← 同じ題材（社内 備品貸出アプリ）を最初から最後まで持ち回る →</p>
+
+    <div class="box warn">
+      <p><strong>章末レビューを挟む理由：</strong>通し演習は「前章の成果物＝次章の入力」なので、途中が甘いままだと後続がすべて崩れます。各章の最後にレビューして<strong>正しい形に整えてから次に進む</strong>ことで、どの受講者も同じ土台で次章を始められます。</p>
+    </div>
+
+    <h3>各章で受講者がやること／相手役AIがすること</h3>
+    <p class="fine" style="margin-top:-4px">各章のAIは「わざと不完全な相手」を演じます。受講者が指摘・検証して初めて前に進む設計です。</p>
+    <table>
+      <thead>
+        <tr>
+          <th style="width:52px">章</th>
+          <th style="width:118px">テーマ</th>
+          <th style="width:30%">受講者がやること</th>
+          <th>相手役AIがすること</th>
+          <th style="width:130px">章末に整える成果物</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Ch.1</strong></td><td>要件定義<br><span class="fine">相手：曖昧な顧客</span></td>
+          <td>曖昧な要望（「備品の貸出、いい感じに管理したい」）を、顧客への逆質問とAIを使って実装できる要件まで詰める</td>
+          <td><strong>要望を曖昧にしか言わない。</strong>聞かれたことにしか答えず、大事な条件（誰が借りられる・上限・延滞）は自分から言わない。指摘されても一度は粘り、根拠を示されて初めて認める。最後に<strong>掘り漏らした論点を採点する</strong></td>
+          <td>受入条件つき要件</td>
+        </tr>
+        <tr>
+          <td><strong>Ch.2</strong></td><td>設計・構造化<br><span class="fine">相手：設計レビュアー</span></td>
+          <td>要件を決まった型（8つの観点）に構造化。レビュアー役に穴を指摘され、直す</td>
+          <td><strong>書けていない項目を突く。</strong>「この場合はどう動くのか」「影響範囲が書かれていない」など、実装者が困る箇所を指摘して書き直させる</td>
+          <td>構造化された要件</td>
+        </tr>
+        <tr>
+          <td><strong>Ch.3</strong></td><td>計画・テスト<br><span class="fine">相手：QAリード</span></td>
+          <td>どこまでテストするかの方針・完了条件を立て、観点の抜けを突かれる</td>
+          <td><strong>テスト観点の抜けを指摘する。</strong>「在庫0のときは？」「同時に借りたら？」など異常系・境界値を投げ、「どうなったら完了か」を曖昧にさせない</td>
+          <td>テスト計画</td>
+        </tr>
+        <tr>
+          <td><strong>Ch.4</strong></td><td>実装・検証<br><span class="fine">相手：コードレビュー役</span></td>
+          <td>AIに実装させ、出てきたコードを鵜呑みにせず検証（AIの「問題ありません」を疑う）</td>
+          <td><strong>実装役のAIは「できました」と自信満々に報告する</strong>（実際には要件との食い違いや手抜きが混ざる）。レビュー役はそれを検証させ、見逃した箇所を指摘する</td>
+          <td>動くアプリ＋検査結果</td>
+        </tr>
+        <tr>
+          <td><strong>Ch.5</strong></td><td>セキュリティ<br><span class="fine">相手：セキュリティ監査役</span></td>
+          <td>セキュリティ要件に照らして自分のアプリを点検し、直す順番を決める</td>
+          <td><strong>チェック項目に沿って監査する。</strong>「他人の貸出を操作できないか」「履歴に個人情報が出ていないか」を問い、対応の優先順位づけを求める</td>
+          <td>判定＋改善計画</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="box note">
+      <p><strong>受講者が最後に持ち帰るもの：</strong>ローカルで動くアプリ1つと、要件書・テスト計画・検査結果・セキュリティ判定の一式。実務でそのまま使えるテンプレートにもなります。</p>
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- 4 -->
+  <section id="s4">
+    <h2>4. 動作確認の状況（Ch.1 実物デモ）</h2>
+    <p class="lead">Ch.1は「商品ページへのレビュー機能追加」を題材に試作し、1周通して動作を確認しました。以下はそのときの実際のログの抜粋です。</p>
+
+    <h3>AIが「曖昧な顧客」を演じます</h3>
+    <div class="chat">
+      <div class="msg">
+        <div class="who">顧客<br>田中さん</div>
+        <div class="bubble cust">
+          「うちの商品ページさ、レビュー機能つけたいんだよね。他社さんはどこも入れてるじゃん。あった方が売れる気がするんだよなあ。<br>
+          まあ、そんなに凝ったことしなくていいから。<strong>よくあるやつでいいよ</strong>。……<strong>いい感じに</strong>お願いできる？」
+        </div>
+      </div>
+      <div class="msg">
+        <div class="who">受講者</div>
+        <div class="bubble you">
+          「レビューって、実際に買った人だけが書けるようにした方がよくないですか？　誰でも書けると、サクラとか嫌がらせで荒れそうで」
+        </div>
+      </div>
+      <div class="msg">
+        <div class="who">顧客<br>田中さん</div>
+        <div class="bubble cust">
+          「えー、そうかなあ。<strong>誰でも書ける方がいい</strong>と思ってたんだよね。数が集まらないと寂しいじゃん。<br>
+          ……<strong>あー、でも。うん、確かに。それは困るな。</strong>前に別の部署が変な書き込みで炎上しかけたことがあってさ。景表法だっけ、あれもうるさくなってるって法務が言ってたな。<br>
+          じゃあ、買った人だけにしよう。……ちなみにそれ、どうやって『買った人』って分かるの？」
+        </div>
+      </div>
+    </div>
+    <p class="anno">▲ 顧客は最初わざと逆のことを言います。受講者が根拠を示して初めて折れ、逆に質問を返してきます。</p>
+
+    <h3>最後にAIが採点します</h3>
+    <table>
+      <thead><tr><th style="width:230px">評価観点</th><th style="width:110px" class="center">判定</th><th>コメント（抜粋）</th></tr></thead>
+      <tbody>
+        <tr><td>目的の明確化</td><td class="center">達成</td><td>「他社もやってるから」に流されず、本当の目的にたどり着けた</td></tr>
+        <tr><td>用語の統一</td><td class="center">未達</td><td>「レビュー」に星評価を含むか、定義しないまま進んでいる</td></tr>
+        <tr><td>スコープの絞り込み</td><td class="center">達成</td><td>やらないことを明示できている</td></tr>
+        <tr><td>非機能要件</td><td class="center">一部</td><td>「重くならないように」では検証できない</td></tr>
+        <tr><td>要件の明確さ</td><td class="center">未達</td><td>「良しなに通知する」が残っている（実装者が判断に困る）</td></tr>
+        <tr><td><strong>隠れた論点の発掘</strong></td><td class="center"><strong>3個中1個＋△2</strong></td><td>投稿者の制限には気づけたが、表示性能と通報フローが浅い</td></tr>
+      </tbody>
+    </table>
+    <p class="fine">※ 顧客が自分から言わない「隠れた論点」を、受講者がいくつ掘り当てられたかが上達の指標になります。この採点結果をもとに章末レビューを行い、成果物を正しい形に整えてから次章へ進みます。</p>
+
+    <div class="box good">
+      <p><strong>検証できたこと：</strong>出題 → 逆質問 → AIで手法を回して仕様化 → 提出 → 採点、の1周が実際に回りました。さらに、<strong>この成果物がそのままCh.2の入力として使える品質</strong>であることも確認できています。<br>
+      <span class="fine">※ 現状はレビュー機能を題材にした試作版です。通し演習として使うには、題材を備品貸出アプリに差し替える作業が必要です。</span></p>
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- 5 -->
+  <section id="s5">
+    <h2>5. 決めたいこと</h2>
+    <p class="lead">論点は3つです。それぞれ推奨と理由を添えています。</p>
+
+    <!-- 論点1 -->
+    <div class="decision">
+      <div class="decision-head"><span class="decision-no">論点 ①</span><span class="decision-q">どこまで「作り切る」か</span></div>
+      <p class="decision-note">最終的に受講者の手元に何が残るか。演習の重さを左右します。</p>
+      <div class="opts">
+        <div class="opt rec">
+          <div class="opt-name">ローカルで動くアプリまで <span class="badge badge-rec">推奨</span></div>
+          <div class="opt-body">
+            自分のPCで起動して操作できるレベル（データ保存・ログインあり／公開はしない）。<br>
+            <span class="pro">◎ 「動いた」達成感が得られ、環境構築で脱落する人を抑えられる。実物のコードが残るので、Ch.4の検証・Ch.5のセキュリティ点検が成立する</span>
+          </div>
+        </div>
+        <div class="opt">
+          <div class="opt-name">公開まで（デプロイ） <span class="badge badge-alt">代替</span></div>
+          <div class="opt-body">
+            <span class="pro">達成感は最大</span><br>
+            <span class="con">✕ インフラ・アカウント・費用が必要。詰まる原因が本題（品質保証）と関係ない所になり、時間が溶ける</span>
+          </div>
+        </div>
+        <div class="opt">
+          <div class="opt-name">画面だけ動く（データ保存なし） <span class="badge badge-alt">代替</span></div>
+          <div class="opt-body">
+            <span class="pro">一番軽い</span><br>
+            <span class="con">✕ データも権限もないため、Ch.5セキュリティの題材がほぼ無くなる。後半2章が痩せる</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 論点2 -->
+    <div class="decision">
+      <div class="decision-head"><span class="decision-no">論点 ②</span><span class="decision-q">題材をどれにするか</span></div>
+      <p class="decision-note">条件：単体で動く／小さい／全章に学びの論点がある／誰でも業務イメージが湧く。</p>
+      <div class="opts">
+        <div class="opt rec">
+          <div class="opt-name">社内 備品貸出アプリ <span class="badge badge-rec">推奨</span></div>
+          <div class="opt-body">
+            社内の備品（PC・プロジェクタ等）の貸出・返却を管理する小さなアプリ。<br>
+            <span class="pro">◎ 「貸す／返す」の状態があるため、二重貸出・在庫0・延滞といったテスト論点が自然に生まれる。管理者と一般社員の権限差があるためセキュリティの題材にもなる。説明不要で誰でも分かる。画面3つ程度で収まる</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:22px">題材候補の比較</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>題材</th>
+            <th class="center" style="width:120px">要件の罠<br><span class="fine">(Ch.1)</span></th>
+            <th class="center" style="width:120px">テスト観点<br><span class="fine">(Ch.3)</span></th>
+            <th class="center" style="width:120px">セキュリティ<br><span class="fine">(Ch.5)</span></th>
+            <th class="center" style="width:90px">実装の軽さ</th>
+            <th class="center" style="width:80px">総合</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="pick">
+            <td>社内 備品貸出<br><span class="fine">誰が借りられる／上限／延滞</span></td>
+            <td class="center">○</td><td class="center">◎<span class="fine"><br>二重貸出・在庫0</span></td><td class="center">◎<span class="fine"><br>権限・貸出履歴</span></td><td class="center">◎</td><td class="center"><strong>◎ 推奨</strong></td>
+          </tr>
+          <tr>
+            <td>会議室予約<br><span class="fine">予約可否／キャンセル期限</span></td>
+            <td class="center">○</td><td class="center">◎<span class="fine"><br>時間の重複</span></td><td class="center">○</td><td class="center">△<span class="fine"><br>時間判定が重い</span></td><td class="center">○</td>
+          </tr>
+          <tr>
+            <td>有給・勤怠申請<br><span class="fine">申請→承認フロー</span></td>
+            <td class="center">◎</td><td class="center">◎<span class="fine"><br>残日数・重複申請</span></td><td class="center">◎<span class="fine"><br>上長権限</span></td><td class="center">○</td><td class="center">○<span class="fine"><br>前提知識が要る</span></td>
+          </tr>
+          <tr>
+            <td>社内ヘルプデスク受付</td>
+            <td class="center">○</td><td class="center">○<span class="fine"><br>状態遷移</span></td><td class="center">○</td><td class="center">○</td><td class="center">○</td>
+          </tr>
+          <tr>
+            <td>ミニEC＋レビュー<br><span class="fine">※Ch.1の検証で使用</span></td>
+            <td class="center">◎</td><td class="center">○</td><td class="center">◎</td><td class="center">△<span class="fine"><br>作る量が多い</span></td><td class="center">△</td>
+          </tr>
+          <tr>
+            <td>簡易タスク管理</td>
+            <td class="center">△</td><td class="center">△</td><td class="center">△</td><td class="center">◎</td><td class="center">△<span class="fine"><br>論点が薄い</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="fine">※ 題材は後から追加・差し替えできる構造にします（同じ仕組みで別題材を載せられる）。</p>
+    </div>
+
+    <!-- 論点3 -->
+    <div class="decision">
+      <div class="decision-head"><span class="decision-no">論点 ③</span><span class="decision-q">どう作っていくか</span></div>
+      <p class="decision-note">5章分をどう開発していくか。品質の担保の仕方に関わります。</p>
+      <div class="opts">
+        <div class="opt rec">
+          <div class="opt-name">1章ずつ検証・改善しながら5章まで積み上げる <span class="badge badge-rec">推奨</span></div>
+          <div class="opt-body">
+            Ch.1の続きとしてCh.2を作り、実際に通して検証・改善。それができたらCh.3へ——を繰り返して5章まで進める。<br>
+            <span class="pro">◎ 各章で「実際に通る」ことを確認してから次へ進むので、破綻しない。前章で得た知見（うまくいった型・失敗した点）を次章にすぐ反映でき、後の章ほど質が上がる</span>
+          </div>
+        </div>
+        <div class="opt">
+          <div class="opt-name">全5章をまとめて設計・開発する <span class="badge badge-alt">代替</span></div>
+          <div class="opt-body">
+            <span class="pro">早く全体像が揃う</span><br>
+            <span class="con">✕ 検証が最後になるため、設計の前提が間違っていた場合に5章分すべてが手戻りになる</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <!-- 6 -->
+  <section id="s6">
+    <h2>6. 作り方：1章ずつ検証しながら積み上げる</h2>
+    <p class="lead">各章について、同じサイクルを回して完成させてから次の章に進みます。</p>
+
+    <h3>1章あたりのサイクル</h3>
+    <div class="cycle">
+      <div class="cy">
+        <div class="cy-no">STEP 1</div>
+        <div class="cy-t">作る</div>
+        <div class="cy-b">その章の相手役エージェントと演習を設計・作成する</div>
+      </div>
+      <div class="cy">
+        <div class="cy-no">STEP 2</div>
+        <div class="cy-t">通す</div>
+        <div class="cy-b">実際に受講者として1周やってみる（前章の成果物を入力に）</div>
+      </div>
+      <div class="cy">
+        <div class="cy-no">STEP 3</div>
+        <div class="cy-t">直す</div>
+        <div class="cy-b">つまずいた所・採点のズレを改善する</div>
+      </div>
+      <div class="cy">
+        <div class="cy-no">STEP 4</div>
+        <div class="cy-t">次章へ</div>
+        <div class="cy-b">成果物が次章の入力として使えることを確認して進む</div>
+      </div>
+    </div>
+    <p class="flow-cap">このサイクルを Ch.2 → Ch.3 → Ch.4 → Ch.5 と繰り返す</p>
+
+    <h3>全体の進行</h3>
+    <div class="tl">
+      <div class="tl-item done">
+        <div class="tl-step">確認済み</div>
+        <div class="tl-title">Ch.1（要件定義）を試作し、動作を確認</div>
+        <div class="tl-body">レビュー機能を題材に、エージェント・受講者ガイド・プロンプト集を用意して1周通した。仕組みとして成立することを検証済み。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-step">次にやること</div>
+        <div class="tl-title">題材を「社内 備品貸出アプリ」に差し替え</div>
+        <div class="tl-body">現在のCh.1は商品レビュー機能で作られているため、通し演習の題材に合わせて作り直します。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-step">その次</div>
+        <div class="tl-title">Ch.2（設計・構造化）を作り、Ch.1からの受け渡しを検証</div>
+        <div class="tl-body">Ch.1の成果物を入力として動くかを実際に通して確認し、改善します。ここで「章のつながり」の作り方が固まります。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-step">以降</div>
+        <div class="tl-title">Ch.3 → Ch.4 → Ch.5 を同じサイクルで積み上げ</div>
+        <div class="tl-body">Ch.2で確立した型を流用しつつ、各章で検証・改善を挟みながら進めます。</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-step">仕上げ</div>
+        <div class="tl-title">5章通しのリハーサル → 受講者へ展開</div>
+        <div class="tl-body">最初から最後まで1周通して、所要時間とつまずき所を確認してから展開します。</div>
+      </div>
+    </div>
+
+    <div class="box note">
+      <p><strong>補足：</strong>演習の「答え」（顧客が隠している論点など）はエージェント内に持たせています。自習用途はこのままで問題ありませんが、評価に使う場合は講師側で採点する運用にします。</p>
+    </div>
+
+    <div class="box good">
+      <p><strong>相談したいこと：</strong>論点①②③について方針を決めていただければ、「題材の差し替え」から着手します。</p>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
