@@ -1,0 +1,949 @@
+<title>全6章 完成報告</title>
+
+<style>
+  :root {
+    --paper:        #F7F7F4;
+    --paper-raised: #FFFFFF;
+    --paper-sunk:   #EFF0EB;
+    --ink:          #171A19;
+    --ink-soft:     #5A6360;
+    --ink-faint:    #868E8A;
+    --rule:         #DCDED7;
+    --rule-strong:  #C3C7BE;
+    --accent:       #145A57;
+    --accent-soft:  #E2EDEB;
+    --amber:        #8A6410;
+    --amber-soft:   #F5ECD8;
+    --clay:         #8A382B;
+    --clay-soft:    #F4E4E0;
+
+    --serif: "Hiragino Mincho ProN", "HiraMinProN-W3", "Yu Mincho", "YuMincho", "Noto Serif JP", "Songti SC", serif;
+    --sans:  "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "YuGothic", "Noto Sans JP", system-ui, -apple-system, sans-serif;
+    --mono:  ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+    --measure: 40rem;
+    --measure-wide: 62rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:        #141716;
+      --paper-raised: #1C201F;
+      --paper-sunk:   #101312;
+      --ink:          #E9EBE8;
+      --ink-soft:     #9EA8A4;
+      --ink-faint:    #7B8582;
+      --rule:         #2C3231;
+      --rule-strong:  #3D4442;
+      --accent:       #74C3B8;
+      --accent-soft:  #1B2A28;
+      --amber:        #D6A94F;
+      --amber-soft:   #2A2416;
+      --clay:         #DB9081;
+      --clay-soft:    #2E1E1A;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:        #141716;
+    --paper-raised: #1C201F;
+    --paper-sunk:   #101312;
+    --ink:          #E9EBE8;
+    --ink-soft:     #9EA8A4;
+    --ink-faint:    #7B8582;
+    --rule:         #2C3231;
+    --rule-strong:  #3D4442;
+    --accent:       #74C3B8;
+    --accent-soft:  #1B2A28;
+    --amber:        #D6A94F;
+    --amber-soft:   #2A2416;
+    --clay:         #DB9081;
+    --clay-soft:    #2E1E1A;
+  }
+  :root[data-theme="light"] {
+    --paper:        #F7F7F4;
+    --paper-raised: #FFFFFF;
+    --paper-sunk:   #EFF0EB;
+    --ink:          #171A19;
+    --ink-soft:     #5A6360;
+    --ink-faint:    #868E8A;
+    --rule:         #DCDED7;
+    --rule-strong:  #C3C7BE;
+    --accent:       #145A57;
+    --accent-soft:  #E2EDEB;
+    --amber:        #8A6410;
+    --amber-soft:   #F5ECD8;
+    --clay:         #8A382B;
+    --clay-soft:    #F4E4E0;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "palt" 1;
+  }
+
+  /* masthead */
+  .masthead {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .masthead-inner {
+    max-width: var(--measure-wide); margin: 0 auto;
+    padding: 0.6rem 1.5rem;
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.4rem 1.25rem;
+  }
+  .masthead-title {
+    font-family: var(--serif); font-size: 0.95rem; font-weight: 600;
+    margin: 0; letter-spacing: 0.02em;
+  }
+  .masthead nav { display: flex; flex-wrap: wrap; gap: 0 1rem; font-size: 0.78rem; color: var(--ink-soft); }
+  .masthead nav a { color: inherit; text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 1px; }
+  .masthead nav a:hover, .masthead nav a:focus-visible { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .sheet { max-width: var(--measure-wide); margin: 0 auto; padding: 0 1.5rem 6rem; }
+  .col { max-width: var(--measure); }
+  .wide { max-width: var(--measure-wide); }
+
+  /* titlepage */
+  .titlepage { padding: 4.5rem 0 3rem; border-bottom: 2px solid var(--ink); }
+  .eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.16em; color: var(--accent);
+    margin: 0 0 1.25rem; font-weight: 600;
+  }
+  h1 {
+    font-family: var(--serif); font-size: clamp(1.9rem, 5vw, 3rem);
+    line-height: 1.3; font-weight: 600; margin: 0 0 1.5rem;
+    text-wrap: balance; letter-spacing: 0.01em;
+  }
+  .standfirst { font-size: 1.05rem; color: var(--ink-soft); max-width: var(--measure); margin: 0 0 2rem; }
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+  .standfirst:last-child { margin-bottom: 0; }
+
+  section { padding: 3.5rem 0 0; }
+
+  h2 {
+    font-family: var(--serif); font-size: 1.6rem; font-weight: 600;
+    line-height: 1.4; margin: 0 0 0.5rem; text-wrap: balance;
+  }
+  .h2-rule { width: 3rem; height: 2px; background: var(--accent); margin: 0 0 1.75rem; }
+  h3 {
+    font-family: var(--serif); font-size: 1.15rem; font-weight: 600;
+    margin: 2.5rem 0 0.75rem; text-wrap: balance;
+  }
+  h4 {
+    font-size: 0.86rem; font-weight: 600; letter-spacing: 0.04em;
+    margin: 1.75rem 0 0.5rem; color: var(--accent);
+  }
+  p { margin: 0 0 1.15rem; }
+  a { color: var(--accent); }
+  ul, ol { margin: 0 0 1.15rem; padding-left: 1.3rem; }
+  li { margin-bottom: 0.4rem; }
+  li::marker { color: var(--ink-faint); }
+  code {
+    font-family: var(--mono); font-size: 0.85em;
+    background: var(--paper-sunk); padding: 0.1em 0.35em; border-radius: 2px;
+  }
+  .lede { font-size: 1.02rem; color: var(--ink-soft); margin-bottom: 2rem; }
+
+  /* callouts */
+  .note {
+    border-left: 3px solid var(--rule-strong);
+    padding: 0.15rem 0 0.15rem 1.15rem;
+    margin: 0 0 1.5rem; color: var(--ink-soft); font-size: 0.94rem;
+  }
+  .note.warn { border-left-color: var(--clay); }
+  .note.warn strong { color: var(--clay); }
+  .note.good { border-left-color: var(--accent); }
+  .note.good strong { color: var(--accent); }
+  .note p:last-child { margin-bottom: 0; }
+
+  /* tables */
+  .tablewrap {
+    overflow-x: auto; margin: 0 0 1.75rem;
+    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);
+  }
+  table { border-collapse: collapse; width: 100%; font-size: 0.88rem; min-width: 30rem; }
+  thead th {
+    text-align: left; font-size: 0.72rem; letter-spacing: 0.08em;
+    color: var(--ink-faint); font-weight: 600;
+    padding: 0.6rem 0.9rem 0.6rem 0; border-bottom: 1px solid var(--rule);
+    vertical-align: bottom; white-space: nowrap;
+  }
+  tbody td { padding: 0.7rem 0.9rem 0.7rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  table .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table th:last-child, table td:last-child { padding-right: 0; }
+
+  .pill {
+    display: inline-block; font-size: 0.72rem; font-weight: 600;
+    letter-spacing: 0.03em; padding: 0.15em 0.55em; border-radius: 2px; white-space: nowrap;
+  }
+  .pill.ok   { background: var(--accent-soft); color: var(--accent); }
+  .pill.part { background: var(--amber-soft);  color: var(--amber); }
+  .pill.risk { background: var(--clay-soft);   color: var(--clay); }
+  .pill.new  { background: var(--accent); color: var(--paper-raised); }
+
+  /* recommendation box */
+  .rec {
+    background: var(--accent-soft); padding: 0.7rem 0.95rem;
+    font-size: 0.9rem; margin: 0.9rem 0 0; border-radius: 2px;
+  }
+  .rec b { color: var(--accent); }
+
+  /* transcript */
+  .transcript {
+    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);
+    margin: 0 0 1.75rem;
+  }
+  .turn { padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+  .turn:last-child { border-bottom: none; }
+  .who {
+    font-size: 0.72rem; letter-spacing: 0.08em; font-weight: 600;
+    color: var(--ink-faint); margin: 0 0 0.35rem;
+  }
+  .turn.cust .who { color: var(--accent); }
+  .turn.cust .said { font-family: var(--serif); font-size: 0.98rem; }
+  .said { margin: 0; font-size: 0.93rem; }
+  .gloss {
+    font-size: 0.85rem; color: var(--ink-soft);
+    background: var(--paper-sunk); padding: 0.55rem 0.8rem;
+    margin: 0.7rem 0 0; border-left: 2px solid var(--accent);
+  }
+  .turn.pivot { background: var(--amber-soft); padding-left: 0.9rem; padding-right: 0.9rem; }
+  .turn.pivot .gloss { background: transparent; border-left-color: var(--amber); }
+
+  /* figures */
+  figure { margin: 0 0 2rem; }
+  figcaption { font-size: 0.82rem; color: var(--ink-soft); margin-top: 0.7rem; max-width: var(--measure); }
+  figcaption b { color: var(--ink); font-weight: 600; }
+
+  /* metrics */
+  .metrics {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 1.5rem 2rem; padding: 1.5rem 0;
+    border-top: 1px solid var(--ink); border-bottom: 1px solid var(--rule);
+    margin: 0 0 1.75rem;
+  }
+  .metric dt { font-size: 0.7rem; letter-spacing: 0.1em; color: var(--ink-faint); margin: 0 0 0.35rem; }
+  .metric dd {
+    margin: 0; font-family: var(--mono); font-size: 1.3rem;
+    font-variant-numeric: tabular-nums; line-height: 1.2;
+  }
+  .metric dd small {
+    display: block; font-family: var(--sans); font-size: 0.75rem;
+    color: var(--ink-soft); margin-top: 0.25rem;
+  }
+
+  blockquote {
+    margin: 0 0 1rem; padding: 0 0 0 1rem;
+    border-left: 2px solid var(--rule-strong);
+    font-family: var(--serif); font-size: 0.96rem; color: var(--ink-soft);
+  }
+  blockquote p { margin: 0 0 0.5rem; }
+  blockquote p:last-child { margin: 0; }
+  blockquote cite {
+    display: block; font-family: var(--sans); font-style: normal;
+    font-size: 0.75rem; color: var(--ink-faint); margin-top: 0.5rem;
+  }
+
+  /* before / after */
+  .ba { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin: 0 0 1.75rem; }
+  .box { background: var(--paper-raised); padding: 1.1rem 1.2rem; }
+  .box .tag { font-size: 0.7rem; letter-spacing: 0.08em; font-weight: 600; margin-bottom: 0.6rem; }
+  .box.b .tag { color: var(--clay); }
+  .box.a .tag { color: var(--accent); }
+  .box p { font-size: 0.85rem; margin: 0.7rem 0 0; }
+  .box p:first-of-type { margin-top: 0; }
+  .box pre {
+    font-family: var(--mono); font-size: 0.76rem; line-height: 1.6;
+    background: var(--paper-sunk); padding: 0.7rem 0.8rem; margin: 0;
+    overflow-x: auto; white-space: pre-wrap;
+  }
+
+  /* mock screens */
+  .mocks { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 2rem; margin: 0 0 1rem; }
+  .screen {
+    background: var(--paper-raised); border: 1px solid var(--rule-strong);
+    font-size: 0.78rem; line-height: 1.6; color: var(--ink);
+  }
+  .screen .bar {
+    display: flex; justify-content: space-between; gap: 0.5rem;
+    padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--rule);
+    background: var(--paper-sunk); font-size: 0.72rem; color: var(--ink-soft);
+  }
+  .screen .bar b { color: var(--ink); font-weight: 600; }
+  .screen .item { padding: 0.7rem 0.75rem; border-bottom: 1px solid var(--rule); }
+  .screen .item:last-child { border-bottom: none; }
+  .screen .ih { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+  .screen .nm { font-weight: 600; }
+  .screen .ct { margin: 0.25rem 0 0; font-family: var(--mono); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+  .screen .ct em { font-style: normal; color: var(--ink-faint); font-size: 0.72rem; }
+  .screen .pl { margin: 0.15rem 0 0; font-size: 0.72rem; color: var(--ink-soft); }
+  .screen .who-box { margin: 0.5rem 0 0; padding: 0.45rem 0.6rem; background: var(--paper-sunk); font-size: 0.72rem; }
+  .screen .who-box .h { color: var(--ink-faint); letter-spacing: 0.04em; margin-bottom: 0.2rem; }
+  .screen .l { display: flex; justify-content: space-between; gap: 0.5rem; }
+  .screen .l span:last-child { font-family: var(--mono); font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+  .screen .btn {
+    margin-top: 0.55rem; text-align: center; padding: 0.35rem;
+    background: var(--accent); color: var(--paper-raised);
+    font-size: 0.75rem; font-weight: 600; border-radius: 2px;
+  }
+  .screen .btn.d { background: var(--paper-sunk); color: var(--ink-faint); }
+  .screen .btn.g { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .screen .alert { background: var(--clay-soft); padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--rule); }
+  .screen .alert .h { font-size: 0.74rem; font-weight: 600; color: var(--clay); margin-bottom: 0.4rem; }
+  .screen .ai { margin-top: 0.45rem; font-size: 0.74rem; }
+  .screen .ai b { display: block; font-family: var(--mono); color: var(--clay); font-size: 0.72rem; }
+  .screen .mini {
+    display: inline-block; margin-top: 0.25rem; padding: 0.15rem 0.5rem;
+    border: 1px solid var(--clay); color: var(--clay); font-size: 0.7rem; border-radius: 2px;
+  }
+  .screen .sec {
+    padding: 0.35rem 0.75rem; background: var(--paper-sunk);
+    font-size: 0.7rem; letter-spacing: 0.08em; color: var(--ink-faint);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .newsection { border-top: 2px solid var(--ink); margin-top: 4rem; padding-top: 3rem; }
+
+  .verdict {
+    border-top: 2px solid var(--ink); margin-top: 3rem; padding-top: 1.5rem;
+  }
+  .verdict p { font-size: 0.96rem; }
+  .verdict p:last-child { margin-bottom: 0; }
+
+  footer {
+    margin-top: 4.5rem; padding-top: 1.5rem; border-top: 2px solid var(--ink);
+    font-size: 0.85rem; color: var(--ink-soft);
+  }
+  footer ul { list-style: none; padding: 0; }
+  footer li { margin-bottom: 0.35rem; }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+  @media print {
+    .masthead { position: static; }
+    h2 { page-break-after: avoid; }
+    .ba, .metrics, .tablewrap, .note, .screen, .verdict { page-break-inside: avoid; }
+  }
+</style>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <p class="masthead-title">AIDDカリキュラム 第2回レビュー</p>
+    <nav>
+      <a href="#since">前回から</a>
+      <a href="#mock">モック</a>
+      <a href="#run">通し演習</a>
+      <a href="#repro">採点の再現性</a>
+      <a href="#origin">由来分析</a>
+      <a href="#caveats">限界</a>
+      <a href="#agenda">論点</a>
+    </nav>
+  </div>
+</header>
+
+<div class="sheet">
+
+  <div class="titlepage">
+    <p class="eyebrow">社内レビュー資料 ／ 第2回</p>
+    <h1>全6章、通しで<br>動きました</h1>
+    <p class="standfirst">
+      前回のレビュー時点で、Ch.6 は<strong>新設したばかりで一度も動かしていません</strong>でした。
+      今回、Ch.1 から Ch.6 まで通しで実施し、<strong>動くアプリと「次回の指示書」まで到達すること</strong>を確認しました。
+    </p>
+    <p class="standfirst">
+      あわせて2つ足しています。Ch.1 の<strong>モック確認フェーズ</strong>——
+      文章だけで要件を詰めさせず、画面を描いて顧客に見せる工程です。
+      そして<strong>採点の再現性の実測</strong>——同じ提出物に同じ判定が返るかを、全6章×4条件で測って収束させました。
+    </p>
+    <p class="standfirst">
+      本資料は<strong>その2点の報告</strong>と、<strong>通しで回して初めて見えたこと</strong>をまとめています。
+      モックは §2 に埋め込んであります。
+    </p>
+  </div>
+
+  <!-- ============ 前回から ============ -->
+  <section id="since">
+    <div class="col">
+      <h2>前回から何が変わったか</h2>
+      <div class="h2-rule"></div>
+      <p class="lede">
+        前回の資料で「未検証」「これから直す」と書いた項目の消化状況です。
+        <strong>1つだけ、手つかずのまま残っています。</strong>
+      </p>
+    </div>
+
+    <div class="wide">
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th style="width:32%">前回の資料に書いたこと</th><th>今回の状態</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ch.6 は一度も動かしていない</strong><br><small>「顧客が業務の言葉で話せるか」「会話が詰まらないか」は実機確認が必要</small></td>
+              <td><span class="pill ok">解消</span>　通しで実施し、受入デモから振り返りまで動くことを確認。顧客は技術用語を使わず、指摘4件すべてを業務の言葉で出しました</td>
+            </tr>
+            <tr>
+              <td><strong>手法だけでは要件同士の矛盾を拾えない</strong><br><small>→ プロンプト集に「整合チェック」を新設</small></td>
+              <td><span class="pill ok">追加済</span>　ただし通し演習で<strong>別種の漏れ</strong>が観測されました（<a href="#run">§3</a>）。1章の中の整合ではなく、<strong>章から章へ渡すときに落ちる</strong>という現象です</td>
+            </tr>
+            <tr>
+              <td><strong>手法を回せば埋まる論点に満点が付いていた</strong><br><small>→ 顧客に確認せず埋めた論点は半分の評価に</small></td>
+              <td><span class="pill ok">適用済</span>　あわせて、相手役が粘る条件も見直しました</td>
+            </tr>
+            <tr>
+              <td><strong>実受講者でのパイロット</strong></td>
+              <td><span class="pill risk">未実施</span>　今回も受講者役はAIです。<strong>本資料の限界の筆頭</strong>で、判断をお願いしたい項目でもあります（<a href="#agenda">§7</a>）</td>
+            </tr>
+            <tr>
+              <td colspan="2" style="padding-top:1rem"><span class="pill new">今回あらたに</span>　<strong>Ch.1 にモック確認フェーズを追加</strong>／<strong>採点の再現性を全6章で実測・収束</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ モック ============ -->
+  <section id="mock">
+    <div class="col">
+      <h2>Ch.1 に「モック確認フェーズ」を足した</h2>
+      <div class="h2-rule"></div>
+      <p class="lede">
+        前回時点の Ch.1 は、文章だけで要件を詰めて提出する形でした。
+        今回、<strong>画面イメージの提出を必須</strong>にし、顧客に見せて反応をもらう工程を挟んでいます。
+      </p>
+      <p>
+        狙いは1つです。<strong>文章では正しく書けている要件が、絵にすると使えない</strong>ことがある——
+        それを提出前に踏ませます。以下は今回の通し演習で受講者役が実際に描いたものです（全5画面のうち2枚）。
+      </p>
+    </div>
+
+    <div class="wide">
+      <div class="mocks">
+
+        <figure>
+          <div class="screen">
+            <div class="bar"><span><b>備品貸出</b></span><span>山田太郎 ▾</span></div>
+            <div class="item">
+              <div class="ih"><span class="nm">プロジェクタ</span><span class="pill ok">借りられます</span></div>
+              <p class="ct">あと 1台 <em>（全3台）</em></p>
+              <p class="pl">3階 倉庫</p>
+              <div class="who-box">
+                <div class="h">いま借りている人</div>
+                <div class="l"><span>佐藤（総務）</span><span>6/2 まで</span></div>
+                <div class="l"><span>鈴木（営業）</span><span>6/3 まで</span></div>
+              </div>
+              <div class="btn">借りる</div>
+            </div>
+            <div class="item">
+              <div class="ih"><span class="nm">モバイルWi-Fi</span><span class="pill risk">いま借りられません</span></div>
+              <p class="ct">あと 0台 <em>（全4台）</em></p>
+              <div class="who-box">
+                <div class="h">いちばん早く返る予定 6/3 ／ 先着順です</div>
+                <div class="l"><span>田中（開発）</span><span>5/29 まで</span></div>
+              </div>
+              <div class="btn d">いま借りられません</div>
+            </div>
+            <div class="item">
+              <div class="ih"><span class="nm">台車</span><span class="pill ok">借りられます</span></div>
+              <p class="ct">あと 2台 <em>（全2台）</em></p>
+              <p class="pl">1階 裏</p>
+              <div class="btn">借りる</div>
+            </div>
+            <div class="item">
+              <div class="ih"><span class="nm">プロジェクタ（1台）</span><span class="pill part">貸出対象外</span></div>
+              <p class="pl">ランプ切れ・修理中</p>
+            </div>
+          </div>
+          <figcaption>
+            <b>画面1：備品一覧（全社員）。</b>
+            <b>「あと1台（全3台）」</b>で貸出可能数と総数を両立させています（用語集で「在庫」を使用禁止にした結果の表記）。
+            0台のときに<b>次に返る予定日</b>を出しているのは、予約機能を作らないという判断の裏づけです。
+            故障中の1台を貸出対象から外せることも、この画面で示しています。
+          </figcaption>
+        </figure>
+
+        <figure>
+          <div class="screen">
+            <div class="bar"><span><b>← 戻る　総務メニュー</b></span><span>佐藤 ▾</span></div>
+            <div class="alert">
+              <div class="h">返却予定を過ぎています（2件）</div>
+              <div class="ai">田中（開発） モバイルWi-Fi<b>5/29 まで → 3日 超過</b>
+                <span class="mini">田中さんの代わりに返す</span></div>
+              <div class="ai">高橋（営業） ノートPC<b>5/20 まで → 12日 超過</b>
+                <span class="mini">高橋さんの代わりに返す</span></div>
+            </div>
+            <div class="sec">貸出中（12件）</div>
+            <div class="item">
+              <div class="l"><span>佐藤（総務） プロジェクタ</span><span>6/2 まで</span></div>
+              <div class="l"><span>鈴木（営業） プロジェクタ</span><span>6/3 まで</span></div>
+              <div class="l" style="color:var(--ink-faint)"><span>ほか10件</span><span></span></div>
+            </div>
+            <div class="item">
+              <div class="btn">誰かの代わりに貸し出す</div>
+              <div class="btn g">一覧を印刷</div>
+            </div>
+          </div>
+          <figcaption>
+            <b>画面4：総務メニュー（総務のみ）。</b>
+            「自分がやること」と「人の分をやること」を<b>画面ごと分離</b>しました。
+            ボタンには対象者の名前を入れています——「代わりに返す」ではなく<b>「田中さんの代わりに返す」</b>。
+            超過日数は、この画面と本人にだけ出します。
+            <strong>この画面構成は、顧客に見せた結果として直したものです。</strong>
+          </figcaption>
+        </figure>
+
+      </div>
+      <p style="font-size:0.82rem; color:var(--ink-soft)">
+        全5画面と設計判断の注記は別ページで参照できます →
+        <a href="https://claude.ai/code/artifact/6ff3671b-0702-41fe-8f26-3dfdd18a78db">備品貸出 画面案</a>
+      </p>
+    </div>
+
+    <div class="col">
+      <h3>絵にした結果、要件が2つ変わった</h3>
+      <p>どちらも、文章のやり取りだけでは出ていません。</p>
+    </div>
+
+    <div class="wide">
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th style="width:34%">顧客の発言</th><th>何が起きたか</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>「置き場所も出せませんか。台車、実は1階の裏なんですよ」</td>
+              <td><strong>要件を追加。</strong>知らないと探せない情報＝目的（探し回るのをやめる）に直結すると判断し、初回リリースに入れました</td>
+            </tr>
+            <tr>
+              <td>「この画面のボタン、どれを押せばいいんですかね。<strong>私が分からないってことは、たぶん皆も分からないです</strong>」</td>
+              <td><strong>画面構成を変更。</strong>総務画面に「返す」「代わりに返す」「代わりに貸し出す」が同居していました。画面を分離し、ボタンに対象者名を入れる形に直しています（これがユーザビリティ要件として仕様に載りました）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="note warn">
+        <p><strong>2つ目は、受講者側の設計ミスでした。</strong>受講者はこの直前に「予約ボタンと借りるボタンを並べると迷う」という理由で、予約機能を Won't に落としています。<strong>同じ過ちを自分が総務画面で犯していることに、絵にするまで気づいていません。</strong></p>
+        <p>文章では「代理返却は総務のみ」と正しく書けており、要件としては正しい。<strong>絵にして初めて「正しい要件が、使えない画面になっている」ことが見えます。</strong>モック工程を必須にした狙いが、そのまま出た形です。</p>
+      </div>
+
+      <blockquote>
+        <p>「なんか、最初『簡単なやつでいいです』とか言っちゃいましたけど、全然簡単じゃなかったですね。でも、こうやって画面で見せてもらえたので、私も『これでいい』って言えます。<strong>文章だけだったら、たぶん分かったふりして頷いてました</strong>」</p>
+        <cite>顧客役（総務・佐藤さん）／ Ch.1 モック確認フェーズより</cite>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- ============ 通し演習 ============ -->
+  <section id="run" class="newsection">
+    <div class="col">
+      <h2>全6章を通した結果</h2>
+      <div class="h2-rule"></div>
+      <p class="lede">
+        作成者（AI）が受講者役として、Ch.1 から Ch.6 まで通しで実施しました。
+        相手役は各章の専用エージェントが演じています。
+      </p>
+    </div>
+
+    <div class="wide">
+      <dl class="metrics">
+        <div class="metric"><dt>到達点</dt><dd>6/6<small>章を完走</small></dd></div>
+        <div class="metric"><dt>仕込んだ欠陥</dt><dd>5/5<small>Ch.4 で検出</small></dd></div>
+        <div class="metric"><dt>発生した欠陥</dt><dd>12<small>件（Ch.6 で由来を分類）</small></dd></div>
+        <div class="metric"><dt>顧客の指摘</dt><dd>4<small>件（受入条件は満たしていた）</small></dd></div>
+        <div class="metric"><dt>最終成果物</dt><dd>23<small>項目の指示書</small></dd></div>
+      </dl>
+
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th style="width:8%">章</th><th style="width:46%">結果</th><th>特記</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">Ch.1</td><td><span class="pill ok">全11観点 達成</span>　隠し論点 3個中3個／モック加点あり</td><td>残った穴は「Excel からの移行」1件</td></tr>
+            <tr><td class="num">Ch.2</td><td>5観点 達成・2観点 一部／チェックリスト ○6 △1</td><td><span class="pill risk">Ch.1 の Must を2件落とした</span></td></tr>
+            <tr><td class="num">Ch.3</td><td><span class="pill ok">7観点すべて達成</span>　チェックリスト ○8（満点）</td><td><span class="pill risk">Ch.2 の仕様を5件落とした</span></td></tr>
+            <tr><td class="num">Ch.4</td><td><span class="pill ok">7観点すべて達成</span>　仕込み欠陥 <strong>5個中5個 検出</strong>／正しい逸脱 ○</td><td>性能の確認のみ未実施</td></tr>
+            <tr><td class="num">Ch.5</td><td><span class="pill ok">8観点すべて達成</span>　9項目 ○7 △2 <strong>誤り0</strong></td><td>2件は「厳しすぎる方向」のズレ</td></tr>
+            <tr><td class="num">Ch.6</td><td>6観点 達成・1観点 一部／顧客指摘 <strong>4件中 ○4</strong></td><td>未決定を1件素通りさせた</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col">
+      <h3>章をまたぐと情報が落ちる、という現象が2回起きた</h3>
+      <p>
+        Ch.2 と Ch.3 は、単体では高い評価でした（Ch.3 はチェックリスト満点）。
+        それでも<strong>前章の内容を落としています。</strong>
+      </p>
+      <ul>
+        <li><strong>Ch.2</strong>：Ch.1 の Must を2件（代理操作ボタンへの対象者名表示・総数の表示）落とした。
+          <strong>前者は、受講者自身がモックを見て Must に上げた項目です</strong></li>
+        <li><strong>Ch.3</strong>：Ch.2 の仕様を5件落とした。うち1件は Ch.1 の Must（貸出状況の印刷）で、
+          テスト計画に存在すらしていませんでした</li>
+      </ul>
+      <p>QAリード役の講評が的確でした。</p>
+      <blockquote>
+        <p>テスト計画は「良く書けているか」ではなく<strong>「設計に書いてあることが全部降りてきているか」</strong>で測られます。</p>
+        <cite>Ch.3 評価より</cite>
+      </blockquote>
+      <p>
+        <strong>これは INVEST / MoSCoW / EARS / 受入条件のどれを正しく回しても拾えない種類の漏れです。</strong>
+        手法はいずれも「1つの要件の質」を上げるもので、要件どうし・章どうしの整合は見ません。
+        前回ご指摘いただいた2手法（ユビキタス言語・EARS）を追加しても、この層は埋まらないことが実証されました。
+      </p>
+      <div class="note good">
+        <p><strong>通し演習にして初めて観測できた現象です。</strong>単章の演習では、そもそも「前章」が存在しません。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 再現性 ============ -->
+  <section id="repro" class="newsection">
+    <div class="col">
+      <h2>採点が受講者ごとにブレないよう手当てした</h2>
+      <div class="h2-rule"></div>
+      <p class="lede">
+        研修として使う以上、<strong>同じ提出物には同じ判定が返る</strong>必要があります。
+        今回いちばん工数を使ったのがここです。
+      </p>
+
+      <h3>測り方</h3>
+      <p>
+        同一の提出物を、毎回<strong>新しいエージェント2体</strong>に渡して判定表を比較します。
+        割れたら教材を直し、揃うまで繰り返す。
+        要点は<strong>測る前に期待値を書き出しておく</strong>ことで、これをやらないと
+        <strong>「2体が揃って間違える」を見逃します</strong>（実際に1度やりました）。
+      </p>
+
+      <h3>4条件 × 全6章で収束</h3>
+    </div>
+
+    <div class="wide">
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th style="width:12%">章</th><th style="width:22%">中品質の提出物</th><th style="width:22%">薄い提出物</th><th style="width:22%">高品質の提出物</th><th>レビューモード</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">Ch.1</td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td></tr>
+            <tr><td class="num">Ch.2</td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td></tr>
+            <tr><td class="num">Ch.3</td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td></tr>
+            <tr><td class="num">Ch.4</td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td></tr>
+            <tr><td class="num">Ch.5</td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td></tr>
+            <tr><td class="num">Ch.6</td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td><td><span class="pill ok">収束</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col">
+      <p>
+        提出物の質を3段階に分けたのには理由があります。
+        <strong>中品質だけで測ると、判定条件の下限側（0件のとき何になるか）を一度も踏みません。</strong>
+        「わざと薄い提出物」を当てたところ、<strong>6章中4章が割れました。</strong>
+        無修正で通ったのは Ch.2 と Ch.5 の2章だけで、
+        この2章は観点をすべて<strong>「件数を数える」形で書いてあった章</strong>でした。
+      </p>
+
+      <h3>いちばん重かった不具合：レビューで答えが流出していた</h3>
+      <div class="note warn">
+        <p><strong>受講者が「レビューしてください」と言っただけで、運が悪いと答えが全部出てくる状態でした。</strong></p>
+        <p>Ch.1 で、同じ依頼に対し1体はレビューを返し、もう1体は<strong>評価モードに昇格して</strong>スコア表・引き継ぎブロック・<strong>隠し論点3つの名指し</strong>まで出力しました。掘り当てが演習の中心なので、これが起きると章が成立しません。</p>
+        <p>原因は、動作モードの列挙にレビューが無く、「提出仕様があれば評価」と「迷ったら評価」が昇格側に押していたこと。<strong>以前入れた「出来が悪くても降格するな」という対策が、逆向きの事故を招いていました。</strong>両方向を塞いで解消しています。</p>
+      </div>
+      <p>
+        判定値のブレは<strong>採点の公平性</strong>の問題ですが、モードのブレは<strong>演習の答えそのものが流出する</strong>ため、
+        受講者間の差がそのまま学習機会の差になります。
+        この測定をしていなければ、研修当日に発覚していました。
+      </p>
+
+      <h3>効いた対策は3つの型に絞られた</h3>
+      <p>
+        「条件文をより正確に書く」方向の修正は、<strong>のべ6回失敗しました。</strong>
+        効いたのは次の3つだけです。
+      </p>
+    </div>
+
+    <div class="wide">
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th style="width:26%">型</th><th style="width:36%">例</th><th>効く理由</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>書く文字列を1つ指定する</strong></td>
+              <td><code>**5個中 M個 検出。残り N個。**</code> と書け</td>
+              <td>禁止は網羅できないが、指定は1つで済む</td>
+            </tr>
+            <tr>
+              <td><strong>飛ばし・内訳を申告させる</strong></td>
+              <td>「飛ばした行：なし」／「内訳と合計を一致させる」</td>
+              <td>落としたことが出力に残るので、数える動作が強制される</td>
+            </tr>
+            <tr>
+              <td><strong>見る場所を1か所に固定する</strong></td>
+              <td>提出フォーマットに専用の記入欄を設け「そこだけ見る」</td>
+              <td>判定材料が散っている観点は、条件をどう書いても揺れる</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ba">
+        <div class="box b">
+          <div class="tag">効かなかった書き方</div>
+          <pre>0本なら未達。1本以上あるなら
+2条件のうち満たす数で決める。
+0〜1なら一部
+（★0でも記述はあるので一部。
+　未達に落とさない）</pre>
+          <p><strong>打ち消しは効かない。</strong>同じセル内で「0」と「未達」を一度結びつけてから否定しても、前半の対応づけだけが読まれます</p>
+        </div>
+        <div class="box a">
+          <div class="tag">効いた書き方</div>
+          <pre>未達にするのは、ストーリーが
+1本も書かれていない提出物だけ。
+1本でもあるなら、2条件のうち
+満たす数で決める。
+2なら達成／それ以外はすべて一部</pre>
+          <p><strong>未達の条件を「数」ではなく「言葉」で定義する。</strong>0 という数に、未達を一度も触れさせません</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <p>
+        もう1つ、<strong>置き場所</strong>の問題も見つかりました。
+        「最後に申告する」と書いた指示は、一度も出力されません。本題を書き終えた時点で応答が完成してしまうためです。
+        同じ内容を「指摘を書く<em>前に</em>、N行を1行ずつ判定して並べる」と<strong>前方に移しただけで、条件文を一字も変えずに収束しました。</strong>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 由来分析 ============ -->
+  <section id="origin" class="newsection">
+    <div class="col">
+      <h2>演習が実証したこと</h2>
+      <div class="h2-rule"></div>
+      <p class="lede">
+        通し演習で発生した欠陥12件を、Ch.6 で由来ごとに3つに分類しました。
+        これが最終章の中心的な作業で、<strong>受講者が持ち帰る「次回の指示書」の材料</strong>になります。
+      </p>
+    </div>
+
+    <div class="wide">
+      <div class="tablewrap">
+        <table>
+          <thead>
+            <tr><th style="width:36%">由来</th><th class="num" style="width:10%">件数</th><th>防げた章</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>(a) 要件で決めなかったから起きた</td><td class="num"><strong>4</strong></td><td><strong>Ch.1 のみ。</strong>誰も決めていないものは、実装が正しいか間違っているかの判定自体ができない</td></tr>
+            <tr><td>(b) 設計に書いたのに実装で落ちた</td><td class="num"><strong>7</strong></td><td>Ch.2〜Ch.5 のどこか。実際、Ch.4・Ch.5 でほぼ全部捕まった</td></tr>
+            <tr><td>(c) 誰も指示していないのにAIが足した</td><td class="num"><strong>1</strong></td><td>Ch.4。ファイル一覧をスコープ表と突き合わせる作業でのみ検出可能</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col">
+      <h3>(b) の7件は、落ち方が揃っていた</h3>
+    </div>
+
+    <div class="wide">
+      <div class="ba">
+        <div class="box a">
+          <div class="tag">守られたもの＝構造の指定</div>
+          <p>テーブル名／ファイル配置／画面構成</p>
+          <p style="color:var(--ink-soft)">ほぼ設計どおりに実装された</p>
+        </div>
+        <div class="box b">
+          <div class="tag">落ちたもの＝条件分岐の指定</div>
+          <p>認可の1行／検証の1行／記録の1行／制約の1行／表示の1行</p>
+          <p style="color:var(--ink-soft)">全部落ちた</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <p>
+        <strong>AI は「何を作るか」は守るが、「どの条件を必ず書くか」は落とします。</strong>
+        しかも条件分岐は<strong>無くても画面が動きます。</strong>
+        むしろ認可が抜けているほうが全ての操作が通るので、動作確認では「よく動く」ように見える。
+        だから、動かす検査では原理的に見つかりません。
+      </p>
+      <p>
+        この演習が受講者に体験させたいのは、まさにここです。
+        Ch.4 で実装役AIは「要件との食い違いは、特に無いと思います」と報告してきます。
+        テストも「6本書きました。通っています」と言ってきます
+        （実際には <code>node_modules</code> すら無く、一度も実行されていません）。
+      </p>
+
+      <h3>受講者が到達する結論</h3>
+      <p>今回の通し演習で、受講者役は最終的にこう書いています。</p>
+      <blockquote>
+        <p>ルールを文章で書いても守られませんが、<strong>埋めさせる表は守られます。</strong></p>
+        <p>実装完了報告に「<code>app/api/</code> 配下の全ルートを1行ずつ列挙し、認証／所有者照合／入力検証を ○/× で書く」を義務づける。今回の欠陥3件は、この表が1枚あれば実装役自身が「所有者照合：×」と書くことになり、気づけた。</p>
+        <cite>Ch.6 提出物より</cite>
+      </blockquote>
+      <p>
+        Ch.6 の評価者は、この点を演習全体の到達点として評価しています。
+        <strong>「ルールを書くだけの人は多い。守られたことをどう確認するかまで書けた人は、そう多くない」</strong>。
+      </p>
+
+      <h3>(a) の4件は、検査を厚くしても減らない</h3>
+      <p>
+        最も重かったのは<strong>「名前を出される側の同意」</strong>です。
+        Ch.1 で借用者名の全社公開を決めたのは顧客（総務の佐藤さん）ですが、
+        <strong>佐藤さんは、名前を出される社員の代表ではありません。</strong>
+      </p>
+      <p>
+        前回の資料で「Ch.6 に顧客への引き渡しを入れた理由」として説明した論点が、実際に走りました。
+        受講者役は Ch.1 のモック提示時に「同意を取る相手が足りていない」と正しく認識しています。
+        <strong>にもかかわらず、やったのは超過表示を絞ることだけでした。</strong>
+      </p>
+    </div>
+
+    <div class="wide">
+      <div class="transcript">
+        <div class="turn cust pivot">
+          <p class="who">顧客（総務・佐藤さん）／ Ch.6 受入デモ</p>
+          <p class="said">田中さんに「これ全社に見えてるんですか」って言われちゃって。……私、見えたほうがいいって言いましたよね。でもね、見られる側は違うのかなって。<strong>私が「見えていい」って言っちゃったの、あれ、私が決めていいことだったんですかね。</strong></p>
+          <p class="gloss">Ch.1 で受講者が下した判断が、<strong>5章分の距離を置いて</strong>返ってきます。誰も間違えていません——設計どおりに実装され、テストは通り、認可も正しい。それでも使う人は気まずい</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <p>
+        <strong>この論点は Ch.2〜Ch.5 のどこを通っても検出できません。</strong>
+        検査の網を厚くしても、決めていないことは引っかからないからです。
+        <strong>通し演習でしか作れない学習体験</strong>が、狙いどおり成立していることを確認できました。
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 限界 ============ -->
+  <section id="caveats" class="newsection">
+    <div class="col">
+      <h2>現時点の限界と、答えの取り扱い</h2>
+      <div class="h2-rule"></div>
+
+      <h3>限界（正直に）</h3>
+      <div class="note">
+        <p><strong>1. 通し演習は作成者（AI）が受講者役をしたものです。</strong>私は各章の隠し仕様をすべて読んでいるため、掘り当ての難易度は実際の受講者と同じではありません。<strong>「カリキュラムが最後まで通ること」と「成果物の完成形」は実証できましたが、「受講者がここまで到達できるか」は未検証です。</strong></p>
+        <p><strong>2. 判定の再現性は「私が作った提出物」でのみ確認しています。</strong>実際の受講者は、私が想定していない書き方をしてきます。今回も、薄い版と高品質版でそれぞれ別の穴が露見しました。</p>
+        <p><strong>3. 所要時間が測れていません。</strong>AI 同士のやり取りなので、実時間は参考になりません。全6章で何時間かかるかは、実受講者で測る必要があります。</p>
+        <p><strong>4. Ch.4 の実装が API 混雑で3回失敗しました。</strong>結果的に日をまたいで完了しましたが、研修当日に同じことが起きた場合の運用（待つ／分割する／代替コードを配る）を決めていません。</p>
+      </div>
+
+      <h3>答えの取り扱い</h3>
+      <p>
+        次のものには演習の答えが含まれます。<strong>受講予定者に渡さないでください。</strong>
+        配布用のコピーを作るスクリプトを用意し、すべて除外するようにしてあります。
+      </p>
+    </div>
+
+    <div class="wide">
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th style="width:32%">対象</th><th>入っているもの</th></tr></thead>
+          <tbody>
+            <tr><td>相手役AIの定義ファイル</td><td>隠された論点・仕込む欠陥・採点基準</td></tr>
+            <tr><td>講師用フォルダ</td><td>全6章の設計仕様・章間の伏線構造</td></tr>
+            <tr><td>模範解答</td><td>Ch.1 の到達点。Ch.4 の欠陥の答えもほぼ含む</td></tr>
+            <tr><td><strong>演習ログ</strong></td><td><strong>逐語のやりとりと採点結果。</strong>実施のたびに増えます。今回の通し演習で4本増えました</td></tr>
+            <tr><td>過去に生成されたアプリ</td><td><strong>欠陥入りのまま残ります。</strong>渡すと Ch.4 の答えになるため、今回の通しで生成したものはリポジトリ外へ退避済みです</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="note warn">
+        <p><strong>本資料も同様です。</strong>隠された論点・仕込まれた欠陥・採点基準に触れているため、受講予定者への共有は避けてください。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 論点 ============ -->
+  <section id="agenda" class="newsection">
+    <div class="col">
+      <h2>レビュー会で議論したい論点</h2>
+      <div class="h2-rule"></div>
+
+      <h3>判断をお願いしたい項目</h3>
+    </div>
+
+    <div class="wide">
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th style="width:30%">論点</th><th>選択肢と作成者の考え</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>実受講者でのパイロット実施</strong></td>
+              <td>限界1〜3を潰すには、実受講者1〜2名でのパイロットが要ります。<strong>推奨：Ch.1〜Ch.3 だけ先行して1名で実施し、所要時間と到達度を測る。</strong>Ch.4 以降は環境依存が大きいので、前半の結果を見てから判断したい</td>
+            </tr>
+            <tr>
+              <td><strong>Ch.4 の実装が失敗したときの運用</strong></td>
+              <td>①その場で待つ　②分割して依頼させる　③<strong>あらかじめ用意した欠陥入りコードを配る</strong>。<strong>推奨は③。</strong>演習の主眼は「実装させること」ではなく「検査すること」で、実装が通らないと Ch.5・Ch.6 が丸ごと止まります</td>
+            </tr>
+            <tr>
+              <td><strong>題材を増やすか</strong></td>
+              <td>現在は equipment-lending の1本のみ。同じ人が2周する場合や、複数チームで同時実施する場合に答えが共有されます。<strong>推奨：当面1本で運用し、必要が出てから追加</strong>（1題材の作り込みに相応の工数がかかるため）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col">
+      <h3>ご意見を伺いたい項目</h3>
+      <ul>
+        <li><strong>Ch.6 の成果物（指示書23項目）を、組織としてどう扱うか。</strong>
+          受講者個人の学びで終わらせず、実際の <code>CLAUDE.md</code> やレビュー手順書に反映する導線が要ると考えています。誰が承認して、どこに置くか</li>
+        <li><strong>全6章を一度に実施するか、分割するか。</strong>
+          各章は引き継ぎブロックで接続しているので、日を分けても成立します。
+          むしろ Ch.4 は「Ch.2 で自分が何を範囲外にしたか」を思い出せないと検出できないので、章の間に読み直す時間を置くほうが精度は上がります</li>
+        <li><strong>採点結果を人事評価に使うか。</strong>
+          判定の再現性は確保しましたが、これは「同じ提出物なら同じ判定」であって「能力の測定」ではありません。
+          作成者としては<strong>学習用途に限定したい</strong>と考えています</li>
+      </ul>
+
+      <div class="verdict">
+        <p><strong>総括：カリキュラムとしては完成し、通しで動くことを実証しました。</strong></p>
+        <p>前回時点では「Ch.6 を作ったが動かしていない」状態でした。今回、6章を接続した状態で最後まで走らせ、<strong>「上流で決めたことが、なぜ下流で落ちるのか」を実物のコードで体験させる装置</strong>として成立していることを確認しています。特に (a) の4件——検査をいくら厚くしても減らない、要件で決めなかったことに起因する欠陥——は、通し演習でしか観測できません。</p>
+        <p>残る課題は<strong>実受講者での検証</strong>です。パイロットの実施可否について、ご判断をお願いします。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>AI駆動開発のための要件定義カリキュラム ― 社内レビュー資料（第2回）</strong></p>
+    <ul>
+      <li>題材：社内 備品貸出アプリ（新規開発）／全6章／技術スタックは Next.js＋TypeScript＋Prisma＋SQLite に固定</li>
+      <li>作成：2026年8月／通し演習の詳細ログは <code>logs/</code> 配下に保存</li>
+      <li>本資料は隠された論点・仕込まれた欠陥・採点基準に触れています。受講予定者への共有はご遠慮ください。</li>
+    </ul>
+  </footer>
+
+</div>
