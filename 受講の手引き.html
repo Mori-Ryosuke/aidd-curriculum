@@ -181,6 +181,22 @@ pre {
 .steps-start li { padding-left: 4px; }
 .steps-start li > p + pre { margin-top: 8px; }
 
+/* シフトレフト・マップ */
+.principles { margin: 0; padding-left: 1.4em; display: grid; gap: 8px; max-width: 65ch; }
+.venues { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+.venue { background: var(--indigo-tint); padding: 10px 12px; display: grid; gap: 2px; font-size: 0.9rem; }
+.venue b { font-family: var(--font-display); font-weight: 700; }
+.venue span { color: var(--ink-soft); font-size: 0.82rem; }
+.lenses { display: grid; gap: 22px; }
+.lens { display: grid; gap: 8px; }
+.lens h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.lens-name { font-size: 1.15rem; color: var(--indigo); }
+.lens-desc { font-family: var(--font-body); font-weight: 400; font-size: 0.9rem; color: var(--ink-soft); }
+table.map { min-width: 860px; font-size: 0.85rem; line-height: 1.6; }
+table.map th[scope="row"] { background: transparent; white-space: nowrap; font-size: 0.85rem; }
+table.map td:nth-child(6) { color: var(--stamp-ng); }
+.example { background: var(--sheet); border: 1px solid var(--rule); padding: 14px 18px; display: grid; gap: 8px; }
+.example p { font-size: 0.93rem; }
 footer { border-top: 2px solid var(--ink); padding-top: 18px; font-size: 0.88rem; color: var(--ink-soft); display: grid; gap: 6px; }
 
 @media (max-width: 520px) {
@@ -199,8 +215,8 @@ footer { border-top: 2px solid var(--ink); padding-top: 18px; font-size: 0.88rem
     <p class="lead">1つのアプリを、要件定義から引き渡しまで7章で作り切る実践演習です。各章にAIの相手役がいて、あなたの判断を受け止め、問い返し、採点します。この手引きは、始める前に全体像をつかむためのものです。</p>
     <div class="goal">
       <div class="label">この演習のゴール</div>
-      <strong>品質を上流で作り込み、それを顧客と約束できる状態になること。</strong>
-      <p>欠陥の多くは、実装ではなく要件と合意の段階で生まれます。AIに実装させる時代ほど、何を決めて誰と合意したかが品質を決めます。最後に持ち帰るのはアプリではなく、<b>次にAIへ実装を頼むときの指示書</b>です。</p>
+      <strong>顧客の真の要件をつかみ、AI と回すスクラムの中で、品質を上流で作り込めるようになる。</strong>
+      <p>欠陥の多くは、実装ではなく要件と合意の段階で生まれます。AI が速く作る時代ほど、作る前に何を決め、誰と合意したかが品質を決めます。そのための型として、アプリでも指示書でもなく、<b>シフトレフト・マップ</b>を持ち帰ります。</p>
     </div>
     <div class="facts">
       <span>題材 <b>社内 備品貸出アプリ（新規開発）</b></span>
@@ -208,6 +224,108 @@ footer { border-top: 2px solid var(--ink); padding-top: 18px; font-size: 0.88rem
       <span>所要 <b>8.5〜14時間（2日・目安）</b></span>
     </div>
   </header>
+
+  <section aria-labelledby="map">
+    <div class="label">この演習で持ち帰るもの</div>
+    <h2 id="map">シフトレフト・マップ</h2>
+    <p>顧客の真の要件をつかみ、品質を上流で作り込むための型です。<b>5つの観点（何を見るか）× スクラムの6つの場（いつ見るか）</b>の30マスでできています。案件が変わっても、同じ表に当てはめて使えます。この演習は、スクラムの1周を場ごとに引き伸ばして練習するものです。現場では、これを短く何周も回します。</p>
+    <ol class="principles">
+      <li><b>AI が叩き台を作り、人が判断し、判断した証拠を残す。</b>優先順位・範囲・着手してよいか・完了の判定は、AI に決めさせません。</li>
+      <li><b>同じ観点を、できるだけ左の場で確かめる。</b>これがシフトレフトです。レビューやレトロで見つかる問題を、ディスカバリーやリファインメントで先に潰します。</li>
+      <li><b>スプリントに入れる量は「人が検証しきれる量」で決める。</b>AI は速く作りますが、検証するのは人です。</li>
+    </ol>
+    <div class="venues" aria-label="スクラムの場と章の対応">
+      <div class="venue"><b>ディスカバリー</b><span>Ch.1</span></div>
+      <div class="venue"><b>リファインメント</b><span>Ch.1.5・Ch.2・Ch.3</span></div>
+      <div class="venue"><b>プランニング</b><span>Ch.1.5・Ch.3</span></div>
+      <div class="venue"><b>スプリント中</b><span>Ch.4・Ch.5</span></div>
+      <div class="venue"><b>レビュー</b><span>Ch.6</span></div>
+      <div class="venue"><b>レトロ</b><span>Ch.6</span></div>
+    </div>
+    <p class="note">各章の「判断の記録」には、どのマスで下した判断かを書きます。それが Ch.6 で作る<b>自分版のシフトレフト・マップ</b>の素材になります。</p>
+    <div class="lenses">
+      <div class="lens">
+        <h3><span class="lens-name">目的</span><span class="lens-desc">顧客の言葉の裏にある、本当の困りごとは何か</span></h3>
+        <div class="table-scroll">
+          <table class="map">
+            <thead><tr><th scope="col">場</th><th scope="col">問い</th><th scope="col">手法</th><th scope="col">AI の役割</th><th scope="col">人の判断</th><th scope="col">見落としの兆候</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">ディスカバリー</th><td>顧客の言葉の裏の困りごとは何か。成功したら何が変わるか</td><td>逆質問（目的と因果でつなぐ）、成功条件を数字で置く</td><td>ヒアリング記録の整理、問いの候補出し</td><td>真の目的を顧客に確かめて決める</td><td>目的が顧客の言葉の言い換えで止まっている</td></tr>
+              <tr><th scope="row">リファインメント</th><td>このチケットは目的のどこに効くか</td><td>ストーリーの「なぜ」、INVEST（Valuable）</td><td>ストーリーの分割案</td><td>目的に効かないものを落とす</td><td>「なぜ」が空のストーリーがある</td></tr>
+              <tr><th scope="row">プランニング</th><td>このスプリントで、目的のどこまでを達成するか</td><td>スプリントゴール</td><td>ゴールの案</td><td>ゴールを決める</td><td>ゴールが機能の列挙になっている</td></tr>
+              <tr><th scope="row">スプリント中</th><td>実装は目的からずれていないか</td><td>受入条件との突き合わせ</td><td>実装と完了報告</td><td>報告を目的と受入条件で検証する</td><td>報告が「要件どおりです」の一言</td></tr>
+              <tr><th scope="row">レビュー</th><td>使う人の困りごとは減ったか</td><td>動くものを見せ、業務の言葉で聞く</td><td>デモの準備、反応の記録</td><td>反応の意味を解釈する</td><td>受入条件を満たした＝完了として扱う</td></tr>
+              <tr><th scope="row">レトロ</th><td>目的に効かなかった作業は何か</td><td>由来分析</td><td>分類の叩き台</td><td>次に変えることを決める</td><td>振り返りが実装の話だけで終わる</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="lens">
+        <h3><span class="lens-name">人</span><span class="lens-desc">その決定で影響を受けるのは誰か。誰が決めてよいか</span></h3>
+        <div class="table-scroll">
+          <table class="map">
+            <thead><tr><th scope="col">場</th><th scope="col">問い</th><th scope="col">手法</th><th scope="col">AI の役割</th><th scope="col">人の判断</th><th scope="col">見落としの兆候</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">ディスカバリー</th><td>この機能で影響を受けるのは誰か。話を聞いた相手はその代表か</td><td>ステークホルダーの洗い出し</td><td>影響を受ける人の候補を挙げる</td><td>誰に確かめるかを決める</td><td>話を聞いたのが依頼者1人だけ</td></tr>
+              <tr><th scope="row">リファインメント</th><td>この決定は、誰が決めてよいか</td><td>決裁事項の仕分け（担当者／決裁者）</td><td>仕分けの叩き台</td><td>決裁者に上げる事項を決める</td><td>部署の外に影響する決定を、担当者だけで決めている</td></tr>
+              <tr><th scope="row">プランニング</th><td>誰の時間を使うか（顧客側の作業を含む）</td><td>体制と顧客側タスクの明示</td><td>依存関係の洗い出し</td><td>顧客と合意する</td><td>顧客側の作業（移行・確認など）が計画に無い</td></tr>
+              <tr><th scope="row">スプリント中</th><td>AI に渡したチケットの背景を、AI は知っているか</td><td>チケットの「参照」欄、指示資産</td><td>実装</td><td>足りない文脈をチケットに書き足す</td><td>会話で決めたことがチケットに無い</td></tr>
+              <tr><th scope="row">レビュー</th><td>実際に使う人に見せたか</td><td>利用者を交えたデモ</td><td>デモの準備</td><td>誰に見せるかを決める</td><td>依頼者だけが確認している</td></tr>
+              <tr><th scope="row">レトロ</th><td>決める人を取り違えた判断は無かったか</td><td>由来分析（要件で決めなかった欠陥）</td><td>分類の叩き台</td><td>取り違えの原因を特定する</td><td>欠陥を全部「実装の問題」に分類している</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="lens">
+        <h3><span class="lens-name">範囲</span><span class="lens-desc">何をやらないか。今回どこまでやるか</span></h3>
+        <div class="table-scroll">
+          <table class="map">
+            <thead><tr><th scope="col">場</th><th scope="col">問い</th><th scope="col">手法</th><th scope="col">AI の役割</th><th scope="col">人の判断</th><th scope="col">見落としの兆候</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">ディスカバリー</th><td>何をやらないか</td><td>MoSCoW（Won&#x27;t を理由つきで）</td><td>分類の叩き台</td><td>Won&#x27;t を決める</td><td>全部が Must</td></tr>
+              <tr><th scope="row">リファインメント</th><td>このチケットでやらないことは何か</td><td>「やらないこと」欄、DoR</td><td>チケットの分割案</td><td>範囲の線を引く</td><td>「やらないこと」が空</td></tr>
+              <tr><th scope="row">プランニング</th><td>人が検証しきれる量か</td><td>検証できる量で計画する、DoD</td><td>見積とスプリント案</td><td>量を絞る</td><td>AI の見積をそのまま採用している。DoD に検証の手順が無い</td></tr>
+              <tr><th scope="row">スプリント中</th><td>頼んでいないものを作っていないか</td><td>生成ファイルとチケットの突き合わせ</td><td>実装（範囲外を親切で作りがち）</td><td>突き合わせて判定する</td><td>頼んでいない機能・ファイルがある</td></tr>
+              <tr><th scope="row">レビュー</th><td>顧客の要望を全部入れようとしていないか</td><td>仕分け（今直す／次へ／受け入れてもらう／対応しない）</td><td>要望の一覧化</td><td>仕分けを決める</td><td>全部を「今直す」にしている</td></tr>
+              <tr><th scope="row">レトロ</th><td>範囲の判断で後悔したものは何か</td><td>由来分析</td><td>分類の叩き台</td><td>次の線引きの基準を決める</td><td>範囲外の追加が「良かれと思って」で済まされている</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="lens">
+        <h3><span class="lens-name">整合</span><span class="lens-desc">決めたこと同士、場と場のあいだで、矛盾や脱落がないか</span></h3>
+        <div class="table-scroll">
+          <table class="map">
+            <thead><tr><th scope="col">場</th><th scope="col">問い</th><th scope="col">手法</th><th scope="col">AI の役割</th><th scope="col">人の判断</th><th scope="col">見落としの兆候</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">ディスカバリー</th><td>決めた要件同士は両立するか</td><td>整合チェック（受入条件同士・初期データ・後回しの逆引き・上下限）</td><td>矛盾の候補を出す</td><td>どちらを採るかを決める</td><td>受入条件を1本ずつ磨いて満足している</td></tr>
+              <tr><th scope="row">リファインメント</th><td>前に決めたことが落ちていないか</td><td>前の成果物との突き合わせ、Must の割り当て確認</td><td>突き合わせの叩き台</td><td>落ちたものを戻す</td><td>単体ではよく書けているのに、前の決定が消えている</td></tr>
+              <tr><th scope="row">プランニング</th><td>DoD とチケットの完了条件は一致しているか</td><td>DoD をチケットに配る</td><td>配分の叩き台</td><td>漏れを判定する</td><td>完了条件が「動くこと」</td></tr>
+              <tr><th scope="row">スプリント中</th><td>実装は設計とチケットどおりか</td><td>観点別の検査、API を直接叩く</td><td>自己点検の表を出させる</td><td>検証する</td><td>「テストが緑」で確認を済ませている</td></tr>
+              <tr><th scope="row">レビュー</th><td>直したことで他が壊れていないか</td><td>回帰の確認（壊れうる経路を先に挙げる）</td><td>経路の候補</td><td>確かめる</td><td>自分の操作だけで通しシナリオを確認している</td></tr>
+              <tr><th scope="row">レトロ</th><td>どの場で矛盾を見逃したか</td><td>由来分析（要件で決めなかった／設計から落ちた／AI が足した）</td><td>分類の叩き台</td><td>防げた場を特定する</td><td>分類が1種類に偏っている</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="lens">
+        <h3><span class="lens-name">合意の証拠</span><span class="lens-desc">合意したと言える形（画面・記録・チケット）で残っているか</span></h3>
+        <div class="table-scroll">
+          <table class="map">
+            <thead><tr><th scope="col">場</th><th scope="col">問い</th><th scope="col">手法</th><th scope="col">AI の役割</th><th scope="col">人の判断</th><th scope="col">見落としの兆候</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">ディスカバリー</th><td>顧客は何を見て合意したか</td><td>モック・プロトタイプを途中で見せる</td><td>モックの作成</td><td>見せて、反応を仕分けて記録する</td><td>文章だけで合意したことにしている</td></tr>
+              <tr><th scope="row">リファインメント</th><td>決めたことはチケットに書かれているか</td><td>判断の記録（AI の出力→採否→理由）</td><td>記録の整形</td><td>記録を残す</td><td>口頭やチャットだけで決まっている</td></tr>
+              <tr><th scope="row">プランニング</th><td>範囲と量を、誰と合意したか</td><td>合意した計画（決裁者・前提・持ち帰り事項）</td><td>計画書の叩き台</td><td>決裁者の判断を取る</td><td>決裁者が誰か書かれていない</td></tr>
+              <tr><th scope="row">スプリント中</th><td>AI の判断（設計からの逸脱）は記録されているか</td><td>逸脱の記録、完了報告の書式</td><td>報告（逸脱を自覚していないことがある）</td><td>差分を設計に戻す</td><td>「設計との差分は特に無い」と報告されている</td></tr>
+              <tr><th scope="row">レビュー</th><td>顧客の反応と対応は記録されたか</td><td>指摘の仕分けと理由の記録</td><td>記録の整形</td><td>対応を決める</td><td>反応が会話の中にしか残っていない</td></tr>
+              <tr><th scope="row">レトロ</th><td>改善はどこに残したか</td><td>指示資産（5つの置き場所）、このフレームワークの更新</td><td>文案</td><td>置き場所を決める</td><td>改善が「気をつける」で終わっている</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section aria-labelledby="aims">
     <div class="label">育てるもの</div>
@@ -283,8 +401,8 @@ footer { border-top: 2px solid var(--ink); padding-top: 18px; font-size: 0.88rem
         <div class="no">Ch.6<small>引き渡し・振り返り</small></div>
         <div class="body">
           <h3>直して、顧客に見せて、なぜそうなったかを振り返る</h3>
-          <p>Phase 1を実際に直し、直ったことを自分で確かめます。佐藤さんに完成品を見せ、反応を受け止めます。最後に、欠陥の由来を3つに分類し、次回の指示書に変えます。</p>
-          <div class="meta"><span>相手役 <b>顧客（佐藤さん）／評価者</b></span><span>目安 <b>60〜90分</b></span><span>成果物 <b>次回の指示書</b></span></div>
+          <p>Phase 1を実際に直し、直ったことを自分で確かめます。佐藤さんに完成品を見せ、反応を受け止めます。最後に、欠陥の由来を3つに分類し、本来どのマスで防げたかを特定して、自分版のシフトレフト・マップを作ります。</p>
+          <div class="meta"><span>相手役 <b>顧客（佐藤さん）／評価者</b></span><span>目安 <b>60〜90分</b></span><span>成果物 <b>自分版のシフトレフト・マップ</b></span></div>
         </div>
       </div>
     </div>
@@ -340,9 +458,16 @@ footer { border-top: 2px solid var(--ink); padding-top: 18px; font-size: 0.88rem
   </section>
 
   <section aria-labelledby="takeaway">
-    <div class="label">最後に持ち帰るもの</div>
-    <h2 id="takeaway">「気をつける」で終わらない指示書</h2>
-    <p>Ch.6で、見つかった欠陥を由来で3つに分けます。(a) 要件で決めなかったから起きた／(b) 設計に書いたのに実装で落ちた／(c) 誰も指示していないのにAIが足した。その分布から、次にAIへ実装を頼むときの指示書を作ります。分かれ目は、読んだ人が同じ判断をできるかどうかです。</p>
+    <div class="label">最後に作るもの</div>
+    <h2 id="takeaway">自分版のシフトレフト・マップ</h2>
+    <p>Ch.6で、見つかった欠陥を由来で3つに分けます。(a) 要件で決めなかったから起きた／(b) 設計に書いたのに実装で落ちた／(c) 誰も指示していないのにAIが足した。そのうえで欠陥ごとに、<b>本来どのマスで防げたか</b>を特定し、マップに自分の現場で使う問いを足します。</p>
+    <div class="example">
+      <div class="label">例</div>
+      <p>欠陥「他人の貸出を返却できた」→ 防げたマス：<b>整合 × スプリント中</b>（AI の「できました」を、API を直接叩いて確かめなかった）。さらに左で防ぐなら：<b>整合 × リファインメント</b>（子チケットの完了条件に「他人は403」を書く）。</p>
+      <p>自分版で足す問い：<b>範囲 × リファインメント</b>「このチケットの『やらないこと』を、AI に渡す前に自分で書いたか」（根拠：Ch.4で、やらないことに書いた機能を AI が作った）</p>
+    </div>
+    <h3>AI に守らせる仕組み（指示書）</h3>
+    <p>マップの中で使う手法の1つとして、AI に守らせる指示書も作ります。分かれ目は、読んだ人が同じ判断をできるかどうかです。</p>
     <div class="compare">
       <div class="bad">
         <div class="label" style="color: var(--stamp-ng)">残らない書き方</div>
