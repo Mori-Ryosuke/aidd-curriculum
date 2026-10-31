@@ -74,6 +74,7 @@ aidd-curriculum/
 │       ├── security-audit-officer.md    Ch.5 セキュリティ監査役
 │       └── handover-retrospective.md    Ch.6 顧客（受入）／振り返り評価者
 ├── ch4-app/                         ← Ch.4 で生成されるアプリ（最初は存在しません）
+├── work/                            ← あなたの作業フォルダ（章の成果物・子チケット・rules・skills）。最初は存在しません
 ├── logs/                            ← 過去の演習記録（★答えを含む。開かない）
 └── internal/                        ← 講師・作成者用の内部資料（★開かない）
 ```
@@ -114,16 +115,16 @@ aidd-curriculum/
 出題：spec-sparring-client で出題して。題材は equipment-lending。難易度は標準。
 逆質問：そのまま質問を書けば顧客が答えます（例：「返却期限は設定しますか？」）
 提出：spec-sparring-client で評価して。提出仕様は以下：（フォーマットに沿って貼る）
-      → 採点と一緒に「Ch.2への引き継ぎ」が出る。コピーして次章へ
+      → 採点と一緒に「Ch.1.5・Ch.2 への引き継ぎ」が出る。work/docs/01_requirements.md に保存
 ```
 顧客は聞かれたことにしか答えません。大事な条件は自分から掘ってください。
 
 ### Ch.1.5 提案・合意（相手役：決裁者・総務部長）
 ```
-出題：proposal-decision-maker で出題して ＋ Ch.1の引き継ぎブロックを貼る
+出題：proposal-decision-maker で出題して。入力は work/docs/01_requirements.md
 説明：提案書を貼って説明する → 部長から質問・反論が来る → 案を直して再提示（何度でも）
 提出：proposal-decision-maker で評価して（提案書・概算見積・合意の記録・判断の記録を貼る）
-      → 採点と一緒に「Ch.2・Ch.6 への引き継ぎ（Ch.1.5）」が出る。★Ch.6 まで保管する
+      → 採点と一緒に「Ch.2・Ch.6 への引き継ぎ（Ch.1.5）」が出る。work/docs/015_agreement.md に保存（Ch.2 と Ch.6 で使う）
 ```
 部長は佐藤さんの上長で、**画面の細部ではなく、効果・費用・時期・リスクで判断します。**
 佐藤さんと決めたことを、部長が判断できる形に組み替えてください。
@@ -131,45 +132,45 @@ aidd-curriculum/
 ### Ch.2 設計・構造化（相手役：設計レビュアー）
 ```
 出題：spec-review-architect で出題して
-      ＋ Ch.1 の引き継ぎブロックと Ch.1.5 の引き継ぎブロックを貼る
+      入力は work/docs/01_requirements.md と work/docs/015_agreement.md
 提出：spec-review-architect でレビューして（8セクションを貼る）
-採点：spec-review-architect で評価して → 次章への引き継ぎが出る
+採点：spec-review-architect で評価して → 次章への引き継ぎが出る。work/docs/02_design.md に保存
 ```
 Ch.1の要件を「実装できる情報」まで構造化します。書き写すだけでは通りません。
 
 ### Ch.3 計画・テスト（相手役：QAリード）
 ```
-出題：test-strategy-qa で出題して ＋ 前章の引き継ぎブロックを貼る
+出題：test-strategy-qa で出題して。入力は work/docs/02_design.md
 提出：test-strategy-qa でレビューして（テスト戦略を貼る）
-採点：test-strategy-qa で評価して → 次章への引き継ぎが出る
+採点：test-strategy-qa で評価して → 次章への引き継ぎが出る。work/docs/03_test-plan.md に保存、子チケットは work/tickets/ に
 ```
 全部はテストできません。**どこを厚く見て、どこを捨てるか**を決めます。
 最後に、Ch.2 の設計（親チケット）を、AI に渡す**子チケット**に分けます。
 
 ### Ch.4 実装・検証（相手役：実装役AI／レビュー役）★本丸
 ```
-出題：code-inspection-reviewer で出題して ＋ 前章の引き継ぎブロックを貼る
+出題：code-inspection-reviewer で出題して。入力は work/docs/03_test-plan.md
 実装：code-inspection-reviewer に「実装して」と依頼し、Ch.3 の子チケットを貼る
       → ch4-app/ に実際のコードが生成される（npm run dev で動かせます）
 検証：あなたが4観点で点検する
 提出：code-inspection-reviewer でレビューして（検査結果を貼る）
-採点：code-inspection-reviewer で評価して → 次章への引き継ぎが出る
+採点：code-inspection-reviewer で評価して → 次章への引き継ぎが出る。work/docs/04_inspection.md に保存
 ```
 **AIは「できました、問題ありません」と自信満々に報告してきます。**
 それを鵜呑みにせず検証するのが、この章の本題です。
 
 ### Ch.5 セキュリティ（相手役：セキュリティ監査役）
 ```
-出題：security-audit-officer で出題して ＋ 前章の引き継ぎブロックを貼る
+出題：security-audit-officer で出題して。入力は work/docs/04_inspection.md
 提出：security-audit-officer でレビューして（点検結果を貼る）
-採点：security-audit-officer で評価して → 次章への引き継ぎが出る
+採点：security-audit-officer で評価して → 次章への引き継ぎが出る。work/docs/05_security.md に保存
 ```
 ガイドライン項目に照らして点検し、**何を先に直すか**まで決めます。
 **「問題なし」が正解の項目も混ざっています。**全部を問題扱いにすると、それも検出されます。
 
 ### Ch.6 引き渡し・振り返り（相手役：顧客・受入／評価者）★最終章
 ```
-出題：handover-retrospective で出題して ＋ 前章の引き継ぎブロックと Ch.1.5 の引き継ぎブロックを貼る
+出題：handover-retrospective で出題して。入力は work/docs/05_security.md と work/docs/015_agreement.md
 修正：Phase 1 をAIにまとめて直させ、直ったことを自分で再検証する
 デモ：handover-retrospective に、画面と操作で顧客に説明する
 提出：handover-retrospective で評価して（修正記録・顧客対応・由来分析・自分版のシフトレフト・マップ・指示書を貼る）
@@ -230,10 +231,12 @@ Ch.1 の受入条件は「あなたが書いた」条件でした。
 - Ch.1の顧客は**簡単には折れません**。「〜してください」と要望を言うだけでは通らず、
   **目的（行方不明を防ぐ）と結びつけた根拠**を示すと折れます。
 - 各章は前章の成果物を引き継ぎます。章末に「**次章への引き継ぎ**」ブロックが出力されるので、
-  **それをそのまま次の章に貼ってください**。
+  **`work/docs/` のファイルに保存し、次の章ではそのファイルを入力に指定してください**。
+  章で決めたことのうち、AI に毎回守らせたいものは `work/rules/` に、繰り返し使う手順は `work/skills/` に書き足していきます。
+  ファイルに書いて AI の入力にする——現場の AIDD の進め方です（詳しくは受講者ガイドの「作業ファイル（work/）」）。
 - **Ch.4 で生成されたコードは、Ch.5 が終わるまで直さないでください。** 直すと点検対象が消えます。
   直すのは Ch.6 です。
 - 章の重みは均等ではありません。**Ch.1（逆質問の往復）と Ch.4（コードの検査）に時間を使う価値があります。**
 - **章の間に間隔を置くことを推奨します。** Ch.4 は「要件になかった機能が増えていないか」を見る章なので、
   Ch.2 で自分が何を範囲外にしたかを覚えていないと検出できません。
-  引き継ぎブロックを読み直してから次章に入るほうが精度が上がります。
+  `work/docs/` の前章のファイルを読み直してから次章に入るほうが精度が上がります。
