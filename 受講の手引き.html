@@ -1,0 +1,389 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AIDD通し演習 受講の手引き</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Kaku+Gothic+Antique:wght@700;900&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: 工程表（左に章番号の帯、右に中身）を縦に積む単一カラムの手引き。検査票の判定印を差し色に使う */
+:root {
+  --paper: #f6f7f5;
+  --sheet: #ffffff;
+  --ink: #1d2430;
+  --ink-soft: #4d5868;
+  --rule: #d6dbd8;
+  --indigo: #2b4a7e;
+  --indigo-tint: #e5ebf4;
+  --stamp-ok: #2f6b4f;
+  --stamp-part: #9a6a12;
+  --stamp-ng: #a33a2c;
+  --code-bg: #eef1ef;
+  --font-display: "Zen Kaku Gothic Antique", "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+  --font-body: "BIZ UDPGothic", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #14181e; --sheet: #1b2129; --ink: #e6e9ee; --ink-soft: #a7b0bd; --rule: #313a46;
+    --indigo: #8fb0e6; --indigo-tint: #22314a; --stamp-ok: #7fc4a2; --stamp-part: #e0b45e; --stamp-ng: #ef8a7c;
+    --code-bg: #232a33; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #14181e; --sheet: #1b2129; --ink: #e6e9ee; --ink-soft: #a7b0bd; --rule: #313a46;
+  --indigo: #8fb0e6; --indigo-tint: #22314a; --stamp-ok: #7fc4a2; --stamp-part: #e0b45e; --stamp-ng: #ef8a7c;
+  --code-bg: #232a33; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.85;
+  margin: 0;
+}
+.wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 40px 72px;
+  display: grid;
+  gap: 56px;
+}
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.35; margin: 0; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 900; letter-spacing: 0.01em; }
+h2 { font-size: 1.45rem; font-weight: 900; }
+h3 { font-size: 1.08rem; font-weight: 700; }
+p { margin: 0; max-width: 65ch; }
+code, .mono { font-family: var(--font-mono); font-size: 0.9em; }
+.label {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--indigo);
+}
+section { display: grid; gap: 20px; }
+.lead { color: var(--ink-soft); }
+:focus-visible { outline: 3px solid var(--indigo); outline-offset: 2px; }
+
+/* 冒頭 */
+header { display: grid; gap: 18px; border-bottom: 2px solid var(--ink); padding-bottom: 28px; }
+.goal {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-left: 6px solid var(--indigo);
+  padding: 20px 22px;
+  display: grid;
+  gap: 8px;
+}
+.goal strong { font-family: var(--font-display); font-size: 1.25rem; font-weight: 900; line-height: 1.5; }
+.facts { display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--ink-soft); font-size: 0.92rem; }
+.facts span b { color: var(--ink); font-weight: 700; }
+
+/* 育てるもの */
+.aims { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.aim { background: var(--sheet); border: 1px solid var(--rule); padding: 18px 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.aim p { font-size: 0.95rem; }
+.aim .scope { font-size: 0.85rem; color: var(--ink-soft); border-top: 1px dashed var(--rule); padding-top: 10px; }
+
+/* 工程表 */
+.flow { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+.step {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr);
+  gap: 0 20px;
+  border-bottom: 1px solid var(--rule);
+  padding-block: 18px;
+}
+.step .no {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: var(--indigo);
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+.step .no small { display: block; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--ink-soft); font-weight: 700; margin-top: 4px; }
+.step .body { display: grid; gap: 6px; min-width: 0; }
+.step .meta { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.86rem; color: var(--ink-soft); }
+.step .meta b { color: var(--ink); font-weight: 700; }
+.step.key .no { color: var(--stamp-ng); }
+.tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 1px 8px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  vertical-align: 2px;
+  margin-left: 8px;
+}
+.tag.new { color: var(--indigo); }
+.tag.heavy { color: var(--stamp-ng); }
+
+/* 引き継ぎ表 */
+.table-scroll { overflow-x: auto; background: var(--sheet); border: 1px solid var(--rule); }
+table { border-collapse: collapse; width: 100%; min-width: 520px; font-size: 0.93rem; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: var(--font-display); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.04em; background: var(--indigo-tint); }
+tr:last-child td { border-bottom: none; }
+.note { font-size: 0.9rem; color: var(--ink-soft); }
+
+/* 判定印 */
+.stamps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.stamp { background: var(--sheet); border: 1px solid var(--rule); padding: 14px 16px; display: grid; gap: 6px; }
+.stamp .mark {
+  justify-self: start;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1rem;
+  padding: 2px 12px;
+  border: 2.5px solid currentColor;
+  border-radius: 4px;
+  transform: rotate(-3deg);
+}
+.stamp.ok .mark { color: var(--stamp-ok); }
+.stamp.part .mark { color: var(--stamp-part); }
+.stamp.ng .mark { color: var(--stamp-ng); }
+.stamp p { font-size: 0.9rem; }
+
+/* 約束ごと */
+.rules { display: grid; gap: 12px; padding: 0; margin: 0; list-style: none; }
+.rules li { background: var(--sheet); border: 1px solid var(--rule); padding: 14px 18px; display: grid; gap: 4px; }
+.rules li b { font-family: var(--font-display); font-weight: 700; }
+.rules li span { font-size: 0.93rem; color: var(--ink-soft); }
+
+/* 指示書の例 */
+.compare { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.compare > div { background: var(--sheet); border: 1px solid var(--rule); padding: 16px 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+.compare .bad { border-top: 4px solid var(--stamp-ng); }
+.compare .good { border-top: 4px solid var(--stamp-ok); }
+.compare ul { margin: 0; padding-left: 1.2em; font-size: 0.93rem; }
+
+/* コマンド */
+pre {
+  margin: 0;
+  background: var(--code-bg);
+  border: 1px solid var(--rule);
+  padding: 14px 16px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+.steps-start { display: grid; gap: 14px; padding-left: 1.4em; margin: 0; }
+.steps-start li { padding-left: 4px; }
+.steps-start li > p + pre { margin-top: 8px; }
+
+footer { border-top: 2px solid var(--ink); padding-top: 18px; font-size: 0.88rem; color: var(--ink-soft); display: grid; gap: 6px; }
+
+@media (max-width: 520px) {
+  .step { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .step .no small { display: inline; margin-left: 8px; }
+  body { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="label">AI駆動開発（AIDD）研修 ／ 受講者向け</div>
+    <h1>AIDD通し演習 受講の手引き</h1>
+    <p class="lead">1つのアプリを、要件定義から引き渡しまで7章で作り切る実践演習です。各章にAIの相手役がいて、あなたの判断を受け止め、問い返し、採点します。この手引きは、始める前に全体像をつかむためのものです。</p>
+    <div class="goal">
+      <div class="label">この演習のゴール</div>
+      <strong>品質を上流で作り込み、それを顧客と約束できる状態になること。</strong>
+      <p>欠陥の多くは、実装ではなく要件と合意の段階で生まれます。AIに実装させる時代ほど、何を決めて誰と合意したかが品質を決めます。最後に持ち帰るのはアプリではなく、<b>次にAIへ実装を頼むときの指示書</b>です。</p>
+    </div>
+    <div class="facts">
+      <span>題材 <b>社内 備品貸出アプリ（新規開発）</b></span>
+      <span>技術 <b>Next.js ＋ TypeScript ＋ Prisma ＋ SQLite（固定）</b></span>
+      <span>所要 <b>8.5〜14時間（2日・目安）</b></span>
+    </div>
+  </header>
+
+  <section aria-labelledby="aims">
+    <div class="label">育てるもの</div>
+    <h2 id="aims">この研修で身につけてほしい2つの力</h2>
+    <div class="aims">
+      <div class="aim">
+        <h3>上流で品質を作り込む力</h3>
+        <p>曖昧な要望を逆質問で要件に落とし、設計・テスト計画・実装・検査へと、決めたことを落とさずに運ぶ力。欠陥がどこで生まれたかを分類し、次の指示に変える力。</p>
+        <div class="scope">主に鍛える章：Ch.1・Ch.1.5・Ch.2・Ch.3・Ch.6</div>
+      </div>
+      <div class="aim">
+        <h3>顧客と約束する力（プリセールスの土台）</h3>
+        <p>顧客から本当の困りごとを聞き出す。選択肢をトレードオフつきで示す。決裁者に判断材料を渡して合意を取る。非エンジニアに画面と言葉で説明する。</p>
+        <div class="scope">主に鍛える章：Ch.1・Ch.1.5・Ch.6<br>提案書の作り込みや競合比較などは、別コース「プリセールス応用編」で扱います。</div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="flow">
+    <div class="label">全体の流れ</div>
+    <h2 id="flow">7つの章と相手役</h2>
+    <p class="lead">前の章で整えた成果物が、そのまま次の章の入力になります。章の重みは均等ではありません。<b>Ch.1（逆質問）とCh.4（コードの検査）</b>に時間を使ってください。</p>
+    <div class="flow">
+      <div class="step key">
+        <div class="no">Ch.1<small>要件定義</small></div>
+        <div class="body">
+          <h3>曖昧な要望を、逆質問で要件に落とす<span class="tag heavy">重点</span></h3>
+          <p>総務の佐藤さんから「簡単なやつでいいので、いい感じに」と相談が来ます。佐藤さんは聞かれたことにしか答えません。手法（INVEST・MoSCoW・EARS・受入条件）をAIに回させて仕様に整え、画面イメージ（モック）を作って佐藤さんに見せます。</p>
+          <div class="meta"><span>相手役 <b>顧客（総務・佐藤さん）</b></span><span>目安 <b>90〜150分</b></span><span>成果物 <b>受入条件つき要件＋画面イメージ</b></span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no">Ch.1.5<small>提案・合意</small></div>
+        <div class="body">
+          <h3>要件を、決裁者が判断できる形にして合意を取る<span class="tag new">新設</span></h3>
+          <p>佐藤さんの上長である部長に、A4 1枚の提案書と概算見積を持っていきます。部長は画面の細部ではなく、効果・費用・時期・リスクで判断します。質問や反論を受けて案を直してください。</p>
+          <div class="meta"><span>相手役 <b>決裁者（総務部長）</b></span><span>目安 <b>60〜90分</b></span><span>成果物 <b>提案書1枚＋概算見積＋合意した計画</b></span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no">Ch.2<small>設計・構造化</small></div>
+        <div class="body">
+          <h3>要件を、実装できる情報に構造化する</h3>
+          <p>8つのセクション（目的・前提条件・影響範囲・受入条件・技術設計・確認事項・備考・関連ファイル）に整理します。これは現場でいう<b>親チケット</b>の本文です。書き写すだけでは通りません。実装者が迷わない粒度まで足してください。</p>
+          <div class="meta"><span>相手役 <b>設計レビュアー</b></span><span>目安 <b>60〜90分</b></span><span>成果物 <b>8セクションの設計（親チケット）</b></span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no">Ch.3<small>計画・テスト</small></div>
+        <div class="body">
+          <h3>どこを厚くテストするかを決め、AIに渡す子チケットに分ける</h3>
+          <p>品質リスクマップ、4層（UT・IT・ST・E2E）のテスト戦略、完了基準（DoD）を作ります。全部「高リスク」にするのは、優先順位をつけていないのと同じです。最後に、親チケットを、AIが1回で正しく実装できる<b>子チケット</b>（3〜8枚）に分け、着手してよいか（DoR）を確かめます。</p>
+          <div class="meta"><span>相手役 <b>QAリード</b></span><span>目安 <b>75〜105分</b></span><span>成果物 <b>テスト戦略・完了基準・子チケット</b></span></div>
+        </div>
+      </div>
+      <div class="step key">
+        <div class="no">Ch.4<small>実装・検証</small></div>
+        <div class="body">
+          <h3>AIに実装させ、そのコードを自分で検証する<span class="tag heavy">重点</span></h3>
+          <p>子チケットを実装役のAIに渡すと、実際に動くアプリを作って、子チケットごとに「できました、問題ありません」と報告してきます。その報告を鵜呑みにせず、4つの観点で検査してください。動いている＝正しい、ではありません。</p>
+          <div class="meta"><span>相手役 <b>実装役AI／レビュー役</b></span><span>目安 <b>90〜120分</b></span><span>成果物 <b>動くアプリ＋検査結果</b></span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no">Ch.5<small>セキュリティ</small></div>
+        <div class="body">
+          <h3>ガイドラインに照らして点検し、直す順番を決める</h3>
+          <p>Ch.4のコードを9項目で点検し、Phase 1〜3の修正計画を立てます。「問題なし」が正解の項目も混ざっています。全部を問題扱いにすると、それも指摘されます。</p>
+          <div class="meta"><span>相手役 <b>セキュリティ監査役</b></span><span>目安 <b>60〜90分</b></span><span>成果物 <b>判定＋修正計画</b></span></div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="no">Ch.6<small>引き渡し・振り返り</small></div>
+        <div class="body">
+          <h3>直して、顧客に見せて、なぜそうなったかを振り返る</h3>
+          <p>Phase 1を実際に直し、直ったことを自分で確かめます。佐藤さんに完成品を見せ、反応を受け止めます。最後に、欠陥の由来を3つに分類し、次回の指示書に変えます。</p>
+          <div class="meta"><span>相手役 <b>顧客（佐藤さん）／評価者</b></span><span>目安 <b>60〜90分</b></span><span>成果物 <b>次回の指示書</b></span></div>
+        </div>
+      </div>
+    </div>
+    <p class="note">所要時間は机上の目安です。章ごとに区切り、間を置いて進めることを勧めます。前の章で自分が何を決めたかを覚えていないと、次の章で検出できないものがあるためです。</p>
+  </section>
+
+  <section aria-labelledby="handover">
+    <div class="label">章のつなぎ方</div>
+    <h2 id="handover">引き継ぎブロックを貼って、次の章へ</h2>
+    <p>各章で「評価して」と頼むと、採点のあとに <code>━━━ 次章への引き継ぎ ━━━</code> というブロックが出ます。これが次の章の入力です。コピーして保管し、次の章の最初に貼ってください。Ch.1とCh.1.5のブロックは、2つの章で使います。</p>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>章</th><th>出題のときに貼るもの</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Ch.1</td><td>なし（題材を伝えるだけ）</td></tr>
+          <tr><td>Ch.1.5</td><td>Ch.1 の引き継ぎ</td></tr>
+          <tr><td>Ch.2</td><td>Ch.1 の引き継ぎ ＋ Ch.1.5 の引き継ぎ</td></tr>
+          <tr><td>Ch.3</td><td>Ch.2 の引き継ぎ</td></tr>
+          <tr><td>Ch.4</td><td>Ch.3 の引き継ぎ（実装を頼むときは、その中の子チケットを貼る）</td></tr>
+          <tr><td>Ch.5</td><td>Ch.4 の引き継ぎ</td></tr>
+          <tr><td>Ch.6</td><td>Ch.5 の引き継ぎ ＋ Ch.1.5 の引き継ぎ</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">掘り切れなかった論点は、引き継ぎに「未決定」と書かれます。勝手に埋められることはありません。未決定のまま進んでも構いませんが、次の章で必ず聞かれます。</p>
+  </section>
+
+  <section aria-labelledby="scoring">
+    <div class="label">採点の見方</div>
+    <h2 id="scoring">観点ごとに、3段階で判定されます</h2>
+    <p>各章の評価役は、観点ごとに次の3つで判定します。判定は印象ではなく「何がいくつ書けているか」で決まるよう作ってあり、誰が受けても同じ提出物には同じ判定が出ます。</p>
+    <div class="stamps">
+      <div class="stamp ok"><span class="mark">達成</span><p>必要な要素がそろっていて、次の工程の人が追加の質問なしで動ける。</p></div>
+      <div class="stamp part"><span class="mark">一部</span><p>要素はあるが、一部が欠けている。具体の値が無い、片方の系だけ、など。</p></div>
+      <div class="stamp ng"><span class="mark">未達</span><p>その観点に当たる記述が無い、または内容が誤っている。</p></div>
+    </div>
+    <p class="note">「レビューして」と頼むと、採点せずに甘いところだけを指摘してもらえます。何度でも受けられます。整ったら「評価して」と頼んでください。</p>
+  </section>
+
+  <section aria-labelledby="rules">
+    <div class="label">約束ごと</div>
+    <h2 id="rules">演習を成り立たせるための6つの約束</h2>
+    <ul class="rules">
+      <li><b>手法はAIに回させ、判断はあなたがする</b><span>INVEST や MoSCoW は暗記しなくて構いません。投げ方は同梱の『手法をAIで回すプロンプト集』にあります。AIの出力のうち、何を捨てて何を直したかを「判断の記録」に書いてください。そこがあなたの仕事です。</span></li>
+      <li><b>相手役は、聞かれたことにしか答えない</b><span>顧客も部長も、大事な事情を自分からは話しません。要望を言うだけでは粘られます。目的と因果でつないだ説明をすると、相手は動きます。</span></li>
+      <li><b>判断を丸投げしない</b><span>「考えておいて」と頼むと、AIは選択肢と推奨を示し、「どれにしますか」と返してきます。選ぶところまでが、この演習で身につけてほしい仕事です。</span></li>
+      <li><b>答えのファイルを開かない</b><span><code>.claude/agents/</code>・<code>internal/</code>・<code>logs/</code>・<code>模範解答_Ch1.md</code> には答えが書いてあります。先に見ると練習になりません。AIにも読ませないでください（<code>模範解答_Ch1.md</code> は、Ch.1 の採点を受けたあとなら開いて構いません）。</span></li>
+      <li><b>Ch.4のコードは、Ch.5が終わるまで直さない</b><span>Ch.5はそのコードを点検する章です。直すと点検対象が消えます。修正はCh.6で行います。</span></li>
+      <li><b>相手役への発言は、相手役に届ける</b><span>取り次ぎのAIが勝手に顧客を演じたり、先回りして「次はこれを聞くと良いですよ」と言い始めたら、止めてください。「spec-sparring-client に聞いて：…」のように相手役の名前を明示すると確実です。</span></li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="takeaway">
+    <div class="label">最後に持ち帰るもの</div>
+    <h2 id="takeaway">「気をつける」で終わらない指示書</h2>
+    <p>Ch.6で、見つかった欠陥を由来で3つに分けます。(a) 要件で決めなかったから起きた／(b) 設計に書いたのに実装で落ちた／(c) 誰も指示していないのにAIが足した。その分布から、次にAIへ実装を頼むときの指示書を作ります。分かれ目は、読んだ人が同じ判断をできるかどうかです。</p>
+    <div class="compare">
+      <div class="bad">
+        <div class="label" style="color: var(--stamp-ng)">残らない書き方</div>
+        <ul>
+          <li>権限チェックに気をつける</li>
+          <li>要件にない機能を作らないよう注意する</li>
+        </ul>
+      </div>
+      <div class="good">
+        <div class="label" style="color: var(--stamp-ok)">次から効く書き方</div>
+        <ul>
+          <li>実装依頼の定型文に「APIルート全ファイルについて、所有者チェックの有無を一覧にして報告すること」を入れる</li>
+          <li>レビュー時に、要件のスコープ表に無いファイルが増えていないかをファイル一覧の差分で確認する</li>
+        </ul>
+      </div>
+    </div>
+    <p class="note">指示書は、置き場所も分けて書きます。毎回読ませる絶対ルールは <code>CLAUDE.md</code>、特定の領域だけの注意は <code>.claude/rules/</code>、使い回す手順は <code>.claude/skills/</code>、実装依頼の定型文や完了報告の書式は<b>チケットテンプレート</b>（Backlog・Jira・GitHub Issues などの課題テンプレート）、経緯はプロジェクトメモリへ。全部を <code>CLAUDE.md</code> に入れると肥大化し、AIがどれが重要か判別できなくなります。</p>
+  </section>
+
+  <section aria-labelledby="start">
+    <div class="label">はじめかた</div>
+    <h2 id="start">演習フォルダでClaude Codeを起動する</h2>
+    <ol class="steps-start">
+      <li>
+        <p>演習フォルダに移動して、Claude Code を起動します。<b>必ずこのフォルダで起動してください。</b>別の場所だと相手役のAIが見つかりません。</p>
+        <pre>cd ~/Desktop/aidd-curriculum &amp;&amp; claude</pre>
+      </li>
+      <li>
+        <p>動作を確認します。佐藤さんから曖昧な相談が返ってくれば準備完了です。</p>
+        <pre>spec-sparring-client で出題して。題材は equipment-lending。</pre>
+      </li>
+      <li>
+        <p>手法をAIで回す作業用に、演習フォルダの外でもう1つ <code>claude</code> を開いておくと便利です。相手役とのやり取りと、手元の作業を分けられます。</p>
+      </li>
+    </ol>
+    <p class="note">演習のルール（答えを読まない・先回りしない・相手役はサブエージェントに任せる）は、同梱の <code>CLAUDE.md</code> に書いてあり、自動で読み込まれます。毎回チャットで伝える必要はありません。詳しい手順と各章の提出フォーマットは <code>受講者ガイド.md</code> にあります。</p>
+  </section>
+
+  <footer>
+    <span>AIDD通し演習 ／ 題材 equipment-lending（社内 備品貸出アプリ）</span>
+    <span>詳しくは同梱の <code>README.md</code>・<code>受講者ガイド.md</code>・<code>手法をAIで回すプロンプト集.md</code> を参照してください。</span>
+  </footer>
+
+</div>
