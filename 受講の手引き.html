@@ -411,25 +411,35 @@ footer { border-top: 2px solid var(--ink); padding-top: 18px; font-size: 0.88rem
 
   <section aria-labelledby="handover">
     <div class="label">章のつなぎ方</div>
-    <h2 id="handover">引き継ぎブロックを貼って、次の章へ</h2>
-    <p>各章で「評価して」と頼むと、採点のあとに <code>━━━ 次章への引き継ぎ ━━━</code> というブロックが出ます。これが次の章の入力です。コピーして保管し、次の章の最初に貼ってください。Ch.1とCh.1.5のブロックは、2つの章で使います。</p>
+    <h2 id="handover">ファイルに書いて、AI の入力にする</h2>
+    <p>現場の AIDD では、仕様・チケット・ルールは<b>ファイル</b>に置き、それを AI に読ませます。会話で伝えたことは、次の会話の AI には伝わりません。この演習でも、各章の成果物とルールを <code>work/</code> フォルダに置いて育てていきます。シフトレフト・マップの観点「合意の証拠」を、毎章の手の動きにするための仕組みです。</p>
+    <pre>work/
+├── docs/      章の成果物（各章の最後に出る引き継ぎブロックを保存する）
+├── tickets/   Ch.3 の子チケット（1枚1ファイル）
+├── rules/     章ごとに書き足す「AI に毎回守らせるルール」
+└── skills/    章ごとに書き足す「繰り返し使う手順」</pre>
+    <ol class="steps-start">
+      <li><p><b>保存する。</b>各章で「評価して」と頼むと、採点のあとに <code>━━━ 次章への引き継ぎ ━━━</code> というブロックが出ます。「このブロックを <code>work/docs/…</code> に保存して」と頼みます。</p></li>
+      <li><p><b>入力にする。</b>次の章の出題で「入力は <code>work/docs/…</code>」とファイルを指定します。AI がファイルを読み、中身をそのまま相手役に渡します。</p></li>
+      <li><p><b>ルールと手順を育てる。</b>章で決めたことのうち、AI に毎回守らせたいものは <code>work/rules/</code> に、繰り返し使う手順は <code>work/skills/</code> に書き足します。何を書くかはあなたが決めます。Ch.4 では子チケットと一緒に rules を実装役に渡し、Ch.6 で見直して整えます。</p></li>
+    </ol>
     <div class="table-scroll">
       <table>
         <thead>
-          <tr><th>章</th><th>出題のときに貼るもの</th></tr>
+          <tr><th>章</th><th>入力にするファイル</th><th>最後に保存するファイル</th></tr>
         </thead>
         <tbody>
-          <tr><td>Ch.1</td><td>なし（題材を伝えるだけ）</td></tr>
-          <tr><td>Ch.1.5</td><td>Ch.1 の引き継ぎ</td></tr>
-          <tr><td>Ch.2</td><td>Ch.1 の引き継ぎ ＋ Ch.1.5 の引き継ぎ</td></tr>
-          <tr><td>Ch.3</td><td>Ch.2 の引き継ぎ</td></tr>
-          <tr><td>Ch.4</td><td>Ch.3 の引き継ぎ（実装を頼むときは、その中の子チケットを貼る）</td></tr>
-          <tr><td>Ch.5</td><td>Ch.4 の引き継ぎ</td></tr>
-          <tr><td>Ch.6</td><td>Ch.5 の引き継ぎ ＋ Ch.1.5 の引き継ぎ</td></tr>
+          <tr><td>Ch.1</td><td>なし（題材を伝えるだけ）</td><td><code>work/docs/01_requirements.md</code></td></tr>
+          <tr><td>Ch.1.5</td><td><code>work/docs/01_requirements.md</code></td><td><code>work/docs/015_agreement.md</code></td></tr>
+          <tr><td>Ch.2</td><td><code>work/docs/01_requirements.md</code> ＋ <code>015_agreement.md</code></td><td><code>work/docs/02_design.md</code></td></tr>
+          <tr><td>Ch.3</td><td><code>work/docs/02_design.md</code></td><td><code>work/docs/03_test-plan.md</code> ＋ <code>work/tickets/</code></td></tr>
+          <tr><td>Ch.4</td><td><code>work/docs/03_test-plan.md</code>。実装を頼むときは <code>work/tickets/</code> ＋ <code>work/rules/</code></td><td><code>work/docs/04_inspection.md</code></td></tr>
+          <tr><td>Ch.5</td><td><code>work/docs/04_inspection.md</code></td><td><code>work/docs/05_security.md</code></td></tr>
+          <tr><td>Ch.6</td><td><code>work/docs/05_security.md</code> ＋ <code>015_agreement.md</code></td><td><code>work/docs/06_retro.md</code></td></tr>
         </tbody>
       </table>
     </div>
-    <p class="note">掘り切れなかった論点は、引き継ぎに「未決定」と書かれます。勝手に埋められることはありません。未決定のまま進んでも構いませんが、次の章で必ず聞かれます。</p>
+    <p class="note"><code>work/rules/</code>・<code>work/skills/</code> は、実務では <code>.claude/rules/</code>・<code>.claude/skills/</code> に置くものです。この演習フォルダの <code>.claude/</code> には相手役の定義が入っているため、混ざらないように分けています。掘り切れなかった論点は、引き継ぎに「未決定」と書かれます。勝手に埋められることはありませんが、次の章で必ず聞かれます。</p>
   </section>
 
   <section aria-labelledby="scoring">
